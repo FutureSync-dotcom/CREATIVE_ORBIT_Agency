@@ -116,10 +116,10 @@ export const Overview = () => {
     const fetchData = async () => {
       try {
         const [statsRes, projectsRes] = await Promise.all([
-          fetch('http://localhost:5001/api/stats', {
+          fetch('/api/stats', {
             headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
           }),
-          fetch('http://localhost:5001/api/projects', {
+          fetch('/api/projects', {
             headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
           })
         ]);

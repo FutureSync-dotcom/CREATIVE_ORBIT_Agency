@@ -62,7 +62,7 @@ export const Messages = () => {
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/messages', {
+      const response = await fetch('/api/messages', {
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
       const data = await response.json();
@@ -76,7 +76,7 @@ export const Messages = () => {
 
   const handleUpdateStatus = async (id: string, status: string) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/messages/${id}`, {
+      const response = await fetch(`/api/messages/${id}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export const Messages = () => {
   const handleDelete = async (id: string) => {
     if (!window.confirm('Delete this message?')) return;
     try {
-      const response = await fetch(`http://localhost:5001/api/messages/${id}`, {
+      const response = await fetch(`/api/messages/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });

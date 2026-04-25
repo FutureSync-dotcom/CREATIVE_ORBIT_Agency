@@ -81,7 +81,7 @@ export const Projects = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/projects', {
+      const response = await fetch('/api/projects', {
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
       const data = await response.json();
@@ -95,7 +95,7 @@ export const Projects = () => {
 
   const fetchClients = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/clients', {
+      const response = await fetch('/api/clients', {
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
       const data = await response.json();
@@ -136,7 +136,7 @@ export const Projects = () => {
     if (!window.confirm('Are you sure you want to delete this project?')) return;
     
     try {
-      const response = await fetch(`http://localhost:5001/api/projects/${id}`, {
+      const response = await fetch(`/api/projects/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
@@ -153,8 +153,8 @@ export const Projects = () => {
     setFormLoading(true);
 
     const url = editingProject 
-      ? `http://localhost:5001/api/projects/${editingProject._id}`
-      : 'http://localhost:5001/api/projects';
+      ? `/api/projects/${editingProject._id}`
+      : '/api/projects';
     
     const method = editingProject ? 'PUT' : 'POST';
 

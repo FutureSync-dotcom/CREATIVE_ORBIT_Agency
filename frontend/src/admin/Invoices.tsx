@@ -71,7 +71,7 @@ export const Invoices = () => {
 
   const fetchInvoices = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/invoices', {
+      const response = await fetch('/api/invoices', {
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
       const data = await response.json();
@@ -85,7 +85,7 @@ export const Invoices = () => {
 
   const fetchClients = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/clients', {
+      const response = await fetch('/api/clients', {
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
       const data = await response.json();
@@ -97,7 +97,7 @@ export const Invoices = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/projects', {
+      const response = await fetch('/api/projects', {
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
       const data = await response.json();
@@ -111,8 +111,8 @@ export const Invoices = () => {
     e.preventDefault();
     const method = currentInvoice._id ? 'PUT' : 'POST';
     const url = currentInvoice._id 
-      ? `http://localhost:5001/api/invoices/${currentInvoice._id}` 
-      : 'http://localhost:5001/api/invoices';
+      ? `/api/invoices/${currentInvoice._id}` 
+      : '/api/invoices';
 
     try {
       const response = await fetch(url, {
@@ -137,7 +137,7 @@ export const Invoices = () => {
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure you want to delete this invoice?')) return;
     try {
-      const response = await fetch(`http://localhost:5001/api/invoices/${id}`, {
+      const response = await fetch(`/api/invoices/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });

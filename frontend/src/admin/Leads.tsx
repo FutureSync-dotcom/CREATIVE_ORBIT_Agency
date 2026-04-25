@@ -58,7 +58,7 @@ export const Leads = () => {
 
   const fetchLeads = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/leads', {
+      const response = await fetch('/api/leads', {
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
       const data = await response.json();
@@ -74,8 +74,8 @@ export const Leads = () => {
     e.preventDefault();
     const method = currentLead._id ? 'PUT' : 'POST';
     const url = currentLead._id 
-      ? `http://localhost:5001/api/leads/${currentLead._id}` 
-      : 'http://localhost:5001/api/leads';
+      ? `/api/leads/${currentLead._id}` 
+      : '/api/leads';
 
     try {
       const response = await fetch(url, {
@@ -100,7 +100,7 @@ export const Leads = () => {
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure you want to delete this lead?')) return;
     try {
-      const response = await fetch(`http://localhost:5001/api/leads/${id}`, {
+      const response = await fetch(`/api/leads/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });

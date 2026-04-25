@@ -7,23 +7,37 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
+let isDbConnected = false;
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',').map((origin) => origin.trim()).filter(Boolean)
+  : [];
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error('Not allowed by CORS'));
+  },
+}));
 
 // Connect to MongoDB
 const connectDB = async () => {
+  if (isDbConnected) return;
+
   try {
     await mongoose.connect(process.env.MONGODB_URI);
+    isDbConnected = true;
     console.log('MongoDB Connected...');
   } catch (err) {
     console.error('MongoDB connection error:', err.message);
-    process.exit(1);
+    throw err;
   }
 };
-
-connectDB();
 
 // Define Routes
 app.use('/api/auth', require('./routes/auth'));
@@ -43,4 +57,19 @@ app.get('/health', (req, res) => res.send('API Running'));
 
 const PORT = process.env.PORT || 5001;
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+if (process.env.VERCEL !== '1') {
+  connectDB()
+    .then(() => {
+      app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+    })
+    .catch((err) => {
+      console.error('Failed to start server:', err.message);
+      process.exit(1);
+    });
+} else {
+  connectDB().catch((err) => {
+    console.error('MongoDB connection bootstrap error:', err.message);
+  });
+}
+
+module.exports = app;

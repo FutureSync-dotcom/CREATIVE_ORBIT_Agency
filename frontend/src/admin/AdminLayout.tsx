@@ -52,7 +52,7 @@ export const AdminLayout = ({ children, title }: { children: React.ReactNode, ti
   });
 
   React.useEffect(() => {
-    fetch('http://localhost:5001/api/settings')
+    fetch('/api/settings')
       .then(res => res.json())
       .then(data => {
         if (data.agencyName) {

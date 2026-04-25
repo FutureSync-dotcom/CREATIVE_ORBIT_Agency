@@ -78,7 +78,7 @@ export const Settings = () => {
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/auth', {
+      const response = await fetch('/api/auth', {
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
       if (response.ok) {
@@ -94,7 +94,7 @@ export const Settings = () => {
 
   const fetchSettings = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/settings');
+      const response = await fetch('/api/settings');
       const data = await response.json();
       setSettings(data);
     } catch (error) {
@@ -106,7 +106,7 @@ export const Settings = () => {
 
   const fetchAdmins = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/admins', {
+      const response = await fetch('/api/admins', {
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
       const data = await response.json();
@@ -121,8 +121,8 @@ export const Settings = () => {
     setSaving(true);
     try {
       const url = selectedAdmin
-        ? `http://localhost:5001/api/admins/${selectedAdmin._id}`
-        : 'http://localhost:5001/api/admins';
+        ? `/api/admins/${selectedAdmin._id}`
+        : '/api/admins';
       const method = selectedAdmin ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
@@ -150,7 +150,7 @@ export const Settings = () => {
   const deleteAdmin = async (id: string) => {
     if (!window.confirm('Are you sure?')) return;
     try {
-      const response = await fetch(`http://localhost:5001/api/admins/${id}`, {
+      const response = await fetch(`/api/admins/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
@@ -164,7 +164,7 @@ export const Settings = () => {
     setSaving(true);
     setProfileError('');
     try {
-      const response = await fetch('http://localhost:5001/api/auth/profile', {
+      const response = await fetch('/api/auth/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -196,7 +196,7 @@ export const Settings = () => {
     if (e) e.preventDefault();
     setSaving(true);
     try {
-      const response = await fetch('http://localhost:5001/api/settings', {
+      const response = await fetch('/api/settings', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -64,7 +64,7 @@ export const Tasks = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/tasks', {
+      const response = await fetch('/api/tasks', {
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
       const data = await response.json();
@@ -78,7 +78,7 @@ export const Tasks = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/projects', {
+      const response = await fetch('/api/projects', {
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
       const data = await response.json();
@@ -92,8 +92,8 @@ export const Tasks = () => {
     e.preventDefault();
     const method = currentTask._id ? 'PUT' : 'POST';
     const url = currentTask._id 
-      ? `http://localhost:5001/api/tasks/${currentTask._id}` 
-      : 'http://localhost:5001/api/tasks';
+      ? `/api/tasks/${currentTask._id}` 
+      : '/api/tasks';
 
     try {
       const response = await fetch(url, {
@@ -118,7 +118,7 @@ export const Tasks = () => {
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure you want to delete this task?')) return;
     try {
-      const response = await fetch(`http://localhost:5001/api/tasks/${id}`, {
+      const response = await fetch(`/api/tasks/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
@@ -137,7 +137,7 @@ export const Tasks = () => {
     const nextStatus = nextStatusMap[task.status];
     
     try {
-      const response = await fetch(`http://localhost:5001/api/tasks/${task._id}`, {
+      const response = await fetch(`/api/tasks/${task._id}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',

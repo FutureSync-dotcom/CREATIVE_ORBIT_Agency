@@ -81,7 +81,7 @@ export const Clients = () => {
 
   const fetchClients = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/clients', {
+      const response = await fetch('/api/clients', {
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
       const data = await response.json();
@@ -121,7 +121,7 @@ export const Clients = () => {
     setIsViewModalOpen(true);
     setProjectsLoading(true);
     try {
-      const response = await fetch(`http://localhost:5001/api/projects/client/${client._id}`);
+      const response = await fetch(`/api/projects/client/${client._id}`);
       const data = await response.json();
       setClientProjects(data);
     } catch (error) {
@@ -135,7 +135,7 @@ export const Clients = () => {
     if (!window.confirm('Are you sure you want to delete this client?')) return;
     
     try {
-      const response = await fetch(`http://localhost:5001/api/clients/${id}`, {
+      const response = await fetch(`/api/clients/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
@@ -152,8 +152,8 @@ export const Clients = () => {
     setFormLoading(true);
 
     const url = editingClient 
-      ? `http://localhost:5001/api/clients/${editingClient._id}`
-      : 'http://localhost:5001/api/clients';
+      ? `/api/clients/${editingClient._id}`
+      : '/api/clients';
     
     const method = editingClient ? 'PUT' : 'POST';
 

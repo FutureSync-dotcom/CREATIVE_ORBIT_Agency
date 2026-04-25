@@ -188,7 +188,7 @@ export function Packages() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5001/api/messages', {
+      const response = await fetch('/api/messages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

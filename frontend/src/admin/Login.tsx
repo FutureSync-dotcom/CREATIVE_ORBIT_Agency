@@ -15,7 +15,7 @@ export function Login() {
   const [agencyEmail, setAgencyEmail] = useState('your@email.com');
 
   React.useEffect(() => {
-    fetch('http://localhost:5001/api/settings')
+    fetch('/api/settings')
       .then(res => res.json())
       .then(data => {
         if (data.agencyName) {
@@ -35,7 +35,7 @@ export function Login() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5001/api/auth/login', {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -64,7 +64,7 @@ export const Deals = () => {
 
   const fetchDeals = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/deals', {
+      const response = await fetch('/api/deals', {
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
       const data = await response.json();
@@ -78,7 +78,7 @@ export const Deals = () => {
 
   const fetchClients = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/clients', {
+      const response = await fetch('/api/clients', {
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
       const data = await response.json();
@@ -92,8 +92,8 @@ export const Deals = () => {
     e.preventDefault();
     const method = currentDeal._id ? 'PUT' : 'POST';
     const url = currentDeal._id 
-      ? `http://localhost:5001/api/deals/${currentDeal._id}` 
-      : 'http://localhost:5001/api/deals';
+      ? `/api/deals/${currentDeal._id}` 
+      : '/api/deals';
 
     try {
       const response = await fetch(url, {
@@ -118,7 +118,7 @@ export const Deals = () => {
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure you want to delete this deal?')) return;
     try {
-      const response = await fetch(`http://localhost:5001/api/deals/${id}`, {
+      const response = await fetch(`/api/deals/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
       });
