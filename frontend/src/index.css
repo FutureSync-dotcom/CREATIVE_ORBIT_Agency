@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #050505;
+  --color-accent-cyan: #00F2FF;
+  --color-accent-purple: #7000FF;
+  --color-glass-bg: rgba(255, 255, 255, 0.03);
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+  
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+
+  --animate-slow-fade: slow-fade 10s infinite;
+  --animate-gradient: gradient 15s ease infinite;
+  --animate-marquee: marquee 40s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-33.33%); }
+}
+
+@keyframes slow-fade {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+:root {
+  background-color: var(--color-primary);
+  color: white;
+  font-family: var(--font-sans);
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+@media (pointer: fine) {
+  body {
+    cursor: none; /* Hide default cursor only on desktop for our MagneticCursor */
+  }
+}
+
+.glass-effect {
+  background: var(--color-glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-glass-border);
+}
+
+.text-gradient {
+  background: linear-gradient(to right, var(--color-accent-cyan), var(--color-accent-purple), var(--color-accent-cyan));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 5s linear infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-cyan);
+}
