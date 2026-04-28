@@ -217,14 +217,7 @@ export const AdminLayout = ({ children, title }: { children: React.ReactNode, ti
         {/* Topbar */}
         <header className="h-20 border-b border-white/5 flex items-center justify-between px-8 sticky top-0 bg-primary/80 backdrop-blur-md z-40">
           <div className="flex-1 flex items-center">
-            <div className="flex items-center gap-4 bg-white/5 px-4 py-2 rounded-xl border border-white/5 w-72 group focus-within:border-accent-cyan/50 transition-all">
-              <Search size={18} className="text-white/30 group-focus-within:text-accent-cyan" />
-              <input 
-                type="text" 
-                placeholder="Search anything..." 
-                className="bg-transparent border-none outline-none text-sm w-full placeholder:text-white/20"
-              />
-            </div>
+            {/* Search removed as requested */}
           </div>
 
           <div className="flex-1 flex justify-center">
