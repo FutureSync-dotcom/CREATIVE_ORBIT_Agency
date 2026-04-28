@@ -68,13 +68,17 @@ export function Portfolio() {
             <motion.span 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
               className="text-xs font-bold uppercase tracking-[0.3em] text-accent-cyan mb-4 block"
             >
               Selected Works
             </motion.span>
             <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.1 }}
               className="text-4xl md:text-7xl font-display font-bold leading-tight"
             >
               Recent <span className="text-gradient">Projects</span>
@@ -104,11 +108,22 @@ export function Portfolio() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, index) => (
-              <ProjectCard 
-                key={project.title} 
-                project={project} 
-                index={index} 
-              />
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ 
+                  duration: 0.8, 
+                  delay: (index % 3) * 0.1,
+                  ease: [0.21, 0.47, 0.32, 0.98] 
+                }}
+              >
+                <ProjectCard 
+                  project={project} 
+                  index={index} 
+                />
+              </motion.div>
             ))}
           </AnimatePresence>
         </div>
