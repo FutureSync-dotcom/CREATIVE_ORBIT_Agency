@@ -225,7 +225,7 @@ export function Packages() {
           <motion.span 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.6 }}
             className="text-xs font-bold uppercase tracking-[0.3em] text-accent-cyan mb-4 block"
           >
@@ -234,7 +234,7 @@ export function Packages() {
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-4xl md:text-7xl font-display font-bold leading-tight mb-6"
           >
@@ -243,7 +243,7 @@ export function Packages() {
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-white/40 max-w-2xl mx-auto text-lg"
           >
@@ -285,7 +285,7 @@ export function Packages() {
                   key={`${activeCategory}-${pkg.name}`}
                   initial={{ opacity: 0, scale: 0.95, y: 30 }}
                   whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false }}
                   exit={{ opacity: 0, scale: 0.95, y: -20 }}
                   transition={{ 
                     duration: 0.6, 

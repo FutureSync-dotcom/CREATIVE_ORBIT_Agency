@@ -1,108 +1,175 @@
-import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Target, Eye, Zap, ShieldCheck, Globe, Users } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
+import { Target, Eye, Zap, ShieldCheck, Globe, Users, Orbit } from 'lucide-react';
 import { cn } from '../utils/cn';
+import { AboutCard } from '../components/AboutCard';
 
 const stats = [
-  { label: 'Global Clients', value: '150+', icon: <Globe size={20} /> },
-  { label: 'Projects Done', value: '320+', icon: <Zap size={20} /> },
-  { label: 'Team Experts', value: '45+', icon: <Users size={20} /> },
-  { label: 'Client Success', value: '99%', icon: <ShieldCheck size={20} /> },
+  { label: 'Global Clients', value: 150, suffix: '+', icon: <Globe size={24} /> },
+  { label: 'Projects Done', value: 320, suffix: '+', icon: <Zap size={24} /> },
+  { label: 'Team Experts', value: 45, suffix: '+', icon: <Users size={24} /> },
+  { label: 'Client Success', value: 99, suffix: '%', icon: <ShieldCheck size={24} /> },
 ];
 
-const values = [
-  {
-    title: 'Precision Engineering',
-    description: 'We believe in writing clean, scalable, and high-performance code that stands the test of time.',
-    icon: <Target className="text-accent-cyan" />
-  },
-  {
-    title: 'Future-Ready Design',
-    description: 'Our designs are not just for today; we build experiences that remain relevant in the evolving digital landscape.',
-    icon: <Eye className="text-accent-purple" />
-  }
-];
+function Counter({ value, suffix }: { value: number; suffix: string }) {
+  const [count, setCount] = useState(0);
+  const ref = React.useRef(null);
+  const isInView = useInView(ref, { once: false });
+
+  useEffect(() => {
+    if (isInView) {
+      let start = 0;
+      const end = value;
+      const duration = 2000;
+      const increment = end / (duration / 16);
+      
+      const timer = setInterval(() => {
+        start += increment;
+        if (start >= end) {
+          setCount(end);
+          clearInterval(timer);
+        } else {
+          setCount(Math.floor(start));
+        }
+      }, 16);
+      return () => clearInterval(timer);
+    }
+  }, [isInView, value]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
+}
 
 export function About({ settings }: { settings: any }) {
   const { scrollYProgress } = useScroll();
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const opacity = useTransform(scrollYProgress, [0.3, 0.5], [0, 1]);
-  const scale = useTransform(scrollYProgress, [0.3, 0.5], [0.8, 1]);
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
 
   const agencyName = settings?.agencyName || 'Agency';
 
   return (
     <section id="about" className="py-32 bg-primary relative overflow-hidden">
-      {/* Parallax Background Elements */}
-      <motion.div style={{ y: y1 }} className="absolute top-0 right-0 w-96 h-96 bg-accent-cyan/5 blur-[120px] rounded-full pointer-events-none" />
-      <motion.div style={{ y: y2 }} className="absolute bottom-0 left-0 w-96 h-96 bg-accent-purple/5 blur-[120px] rounded-full pointer-events-none" />
+      {/* Dynamic Background Elements */}
+      <motion.div style={{ y: y1 }} className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent-cyan/5 blur-[150px] rounded-full pointer-events-none" />
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.1, 0.2, 0.1] 
+        }}
+        transition={{ duration: 10, repeat: Infinity }}
+        className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent-purple/5 blur-[150px] rounded-full pointer-events-none" 
+      />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-          {/* Left Side: Text Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <span className="text-xs font-bold uppercase tracking-[0.3em] text-accent-cyan mb-6 block">
-              The Agency Narrative
-            </span>
-            <h2 className="text-4xl md:text-6xl font-display font-bold mb-8 leading-[1.2]">
-              Architecting <span className="text-gradient">Human-Centric</span> Digital Ecosystems.
-            </h2>
-            <p className="text-lg text-white/40 leading-relaxed mb-10">
-              {agencyName} was born out of a passion for bridging the gap between complex 
-              technology and intuitive human experiences. We don't just build software; 
-              we craft digital journeys that empower brands and resonate with users globally.
-            </p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+          
+          {/* Left Side: Text Narrative (4 Columns) */}
+          <div className="lg:col-span-5 space-y-12">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.8 }}
+            >
+              <span className="text-xs font-bold uppercase tracking-[0.3em] text-accent-cyan mb-6 block">
+                Innovative Agency
+              </span>
+              <h2 className="text-4xl md:text-7xl font-display font-bold mb-8 leading-[1.1]">
+                Redefining the <span className="text-gradient">Digital</span> Frontier.
+              </h2>
+              <p className="text-lg text-white/40 leading-relaxed max-w-xl">
+                {agencyName} isn't just a development studio. We are architects of the future, 
+                blending deep technical prowess with artistic vision to create ecosystems 
+                that breathe life into brands.
+              </p>
+            </motion.div>
 
-            <div className="space-y-8">
-              {values.map((value, i) => (
-                <div key={i} className="flex gap-6 items-start group">
-                  <div className="w-12 h-12 rounded-xl glass-effect flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                    {value.icon}
+            <div className="space-y-6">
+              <AboutCard delay={0.2} className="p-6">
+                <div className="flex gap-6 items-center">
+                  <div className="w-14 h-14 rounded-2xl bg-accent-cyan/10 flex items-center justify-center text-accent-cyan shrink-0">
+                    <Target size={28} />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">{value.title}</h4>
-                    <p className="text-white/40 text-sm leading-relaxed">{value.description}</p>
+                    <h4 className="text-xl font-bold mb-1">Precision Engineering</h4>
+                    <p className="text-white/40 text-sm">Clean, scalable architectures built for tomorrow.</p>
                   </div>
                 </div>
-              ))}
-            </div>
-          </motion.div>
+              </AboutCard>
 
-          {/* Right Side: Interactive Visuals/Stats */}
-          <motion.div 
-            style={{ scale, opacity }}
-            className="relative"
-          >
-            <div className="grid grid-cols-2 gap-6">
-              {stats.map((stat, i) => (
-                <motion.div
-                  key={i}
-                  whileHover={{ y: -10 }}
-                  className="glass-effect p-8 rounded-[2.5rem] flex flex-col items-center text-center group border-white/5 hover:border-white/20 transition-all duration-500"
-                  data-magnetic
-                >
-                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-accent-cyan mb-4 group-hover:bg-accent-cyan/10 transition-colors">
-                    {stat.icon}
+              <AboutCard delay={0.3} className="p-6">
+                <div className="flex gap-6 items-center">
+                  <div className="w-14 h-14 rounded-2xl bg-accent-purple/10 flex items-center justify-center text-accent-purple shrink-0">
+                    <Eye size={28} />
                   </div>
-                  <h3 className="text-3xl font-display font-bold mb-2 group-hover:text-gradient transition-all duration-500">
-                    {stat.value}
-                  </h3>
-                  <span className="text-xs font-bold uppercase tracking-widest text-white/20 group-hover:text-white/40">
-                    {stat.label}
-                  </span>
-                </motion.div>
-              ))}
+                  <div>
+                    <h4 className="text-xl font-bold mb-1">Visionary Design</h4>
+                    <p className="text-white/40 text-sm">Experiences that resonate and convert at first sight.</p>
+                  </div>
+                </div>
+              </AboutCard>
+            </div>
+          </div>
+
+          {/* Right Side: Bento Grid Stats (7 Columns) */}
+          <div className="lg:col-span-7 grid grid-cols-2 gap-6 h-full">
+            {/* Large Stat Card */}
+            <AboutCard delay={0.4} className="col-span-2 md:col-span-1 h-[300px] flex flex-col justify-center items-center text-center">
+              <div className="mb-6 p-4 rounded-full bg-white/5 text-accent-cyan">
+                <Orbit size={48} className="animate-spin-slow" />
+              </div>
+              <h3 className="text-5xl font-display font-bold mb-2">
+                <Counter value={stats[1].value} suffix={stats[1].suffix} />
+              </h3>
+              <p className="text-sm font-bold uppercase tracking-widest text-white/30">{stats[1].label}</p>
+            </AboutCard>
+
+            {/* Small Stat Cards */}
+            <div className="col-span-2 md:col-span-1 grid grid-cols-1 gap-6">
+              <AboutCard delay={0.5} className="h-[140px] flex items-center gap-6">
+                <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-accent-cyan shrink-0">
+                  {stats[0].icon}
+                </div>
+                <div>
+                  <h4 className="text-2xl font-bold"><Counter value={stats[0].value} suffix={stats[0].suffix} /></h4>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/20">{stats[0].label}</p>
+                </div>
+              </AboutCard>
+
+              <AboutCard delay={0.6} className="h-[140px] flex items-center gap-6">
+                <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-accent-cyan shrink-0">
+                  {stats[2].icon}
+                </div>
+                <div>
+                  <h4 className="text-2xl font-bold"><Counter value={stats[2].value} suffix={stats[2].suffix} /></h4>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/20">{stats[2].label}</p>
+                </div>
+              </AboutCard>
             </div>
 
-            {/* Floating Glass Illustration Card */}
-            <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-accent-cyan/5 blur-3xl rounded-full" />
-          </motion.div>
+            {/* Wide Full Success Card */}
+            <AboutCard delay={0.7} className="col-span-2 h-[180px] flex items-center justify-between px-12 bg-gradient-to-r from-accent-cyan/10 to-transparent">
+              <div className="flex items-center gap-8">
+                <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center text-accent-cyan shrink-0">
+                  <ShieldCheck size={32} />
+                </div>
+                <div>
+                  <h4 className="text-5xl font-display font-bold leading-none mb-2">
+                    <Counter value={stats[3].value} suffix={stats[3].suffix} />
+                  </h4>
+                  <p className="text-xs font-bold uppercase tracking-widest text-white/30">{stats[3].label}</p>
+                </div>
+              </div>
+              <div className="hidden md:block">
+                <motion.div 
+                  style={{ rotate }}
+                  className="w-20 h-20 border-2 border-dashed border-accent-cyan/20 rounded-full flex items-center justify-center"
+                >
+                  <div className="w-2 h-2 bg-accent-cyan rounded-full animate-pulse" />
+                </motion.div>
+              </div>
+            </AboutCard>
+          </div>
+
         </div>
       </div>
     </section>
