@@ -242,15 +242,15 @@ export const Settings = () => {
   return (
     <AdminLayout title="Settings">
       <div className="max-w-4xl mx-auto space-y-8">
-        <div className="flex items-end justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-            <p className="text-white/40 mt-1">Manage your agency identity and system preferences.</p>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Settings</h1>
+            <p className="text-white/40 mt-1 text-sm md:text-base">Manage your agency identity and system preferences.</p>
           </div>
           <button
             onClick={() => handleSave()}
             disabled={saving}
-            className="px-6 py-2.5 bg-accent-cyan text-primary font-bold rounded-xl flex items-center gap-2 shadow-lg shadow-accent-cyan/20 hover:shadow-accent-cyan/40 transition-all hover:scale-[1.02] disabled:opacity-50"
+            className="w-full sm:w-auto px-6 py-3 bg-accent-cyan text-primary font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-accent-cyan/20 hover:shadow-accent-cyan/40 transition-all hover:scale-[1.02] disabled:opacity-50"
           >
             {saving ? <Loader2 className="animate-spin" size={18} /> : (
               success ? <CheckCircle2 size={18} /> : <Save size={18} />
@@ -261,12 +261,12 @@ export const Settings = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar Tabs */}
-          <div className="space-y-2">
+          <div className="flex lg:flex-col gap-2 overflow-x-auto no-scrollbar pb-2 lg:pb-0">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === tab.id ? 'bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/20' : 'text-white/40 hover:bg-white/5'
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all whitespace-nowrap lg:w-full shrink-0 ${activeTab === tab.id ? 'bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/20' : 'text-white/40 hover:bg-white/5 border border-transparent'
                   }`}
               >
                 <tab.icon size={18} />
@@ -286,9 +286,9 @@ export const Settings = () => {
                   exit={{ opacity: 0, x: -20 }}
                   className="space-y-6"
                 >
-                  <div className="glass-effect p-8 rounded-[2.5rem] border-white/5 space-y-8">
-                    <div className="flex items-center gap-6 pb-8 border-b border-white/5">
-                      <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-accent-cyan to-accent-purple p-0.5">
+                  <div className="glass-effect p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border-white/5 space-y-8">
+                    <div className="flex flex-col sm:flex-row items-center gap-6 pb-8 border-b border-white/5 text-center sm:text-left">
+                      <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-accent-cyan to-accent-purple p-0.5 shrink-0">
                         <div className="w-full h-full rounded-[18px] bg-primary flex items-center justify-center overflow-hidden">
                           <div className="w-full h-full bg-white/5 flex items-center justify-center text-accent-cyan font-bold text-2xl uppercase">
                             {adminUser?.name?.charAt(0) || 'A'}
@@ -364,7 +364,7 @@ export const Settings = () => {
                     <div className="flex justify-end pt-4">
                       <button
                         onClick={handleSaveAdmin}
-                        className="px-6 py-2.5 bg-white/5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-all flex items-center gap-2"
+                        className="w-full sm:w-auto px-6 py-3 bg-white/5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-all flex items-center justify-center gap-2"
                       >
                         <Save size={16} />
                         Update Profile
@@ -372,7 +372,7 @@ export const Settings = () => {
                     </div>
                   </div>
 
-                  <div className={`p-8 rounded-[2.5rem] border transition-all duration-500 ${settings.maintenanceMode
+                  <div className={`p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border transition-all duration-500 ${settings.maintenanceMode
                       ? 'bg-red-500/10 border-red-500/20 shadow-lg shadow-red-500/5'
                       : 'glass-effect border-white/5'
                     }`}>
@@ -407,7 +407,7 @@ export const Settings = () => {
                   exit={{ opacity: 0, x: -20 }}
                   className="space-y-6"
                 >
-                  <div className="glass-effect p-8 rounded-[2.5rem] border-white/5 space-y-6">
+                  <div className="glass-effect p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border-white/5 space-y-6">
                     <h3 className="text-lg font-bold flex items-center gap-3 mb-4">
                       <Globe size={20} className="text-accent-cyan" />
                       Public Identity
@@ -489,7 +489,7 @@ export const Settings = () => {
                     </div>
                   </div>
 
-                  <div className="glass-effect p-8 rounded-[2.5rem] border-white/5 space-y-6">
+                  <div className="glass-effect p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border-white/5 space-y-6">
                     <h3 className="text-lg font-bold flex items-center gap-3 mb-4">
                       <Share2 size={20} className="text-accent-cyan" />
                       Social Presence
@@ -531,7 +531,7 @@ export const Settings = () => {
                   exit={{ opacity: 0, x: -20 }}
                   className="space-y-6"
                 >
-                  <div className="flex justify-between items-center mb-4">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                     <h3 className="text-lg font-bold flex items-center gap-3">
                       <Users size={20} className="text-accent-cyan" />
                       Team Members
@@ -542,7 +542,7 @@ export const Settings = () => {
                         setUserForm({ name: '', email: '', password: '', role: 'admin', permissions: ['dashboard'] });
                         setShowUserModal(true);
                       }}
-                      className="px-4 py-2 bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/20 rounded-xl text-sm font-bold hover:bg-accent-cyan/20 transition-all"
+                      className="w-full sm:w-auto px-4 py-2.5 bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/20 rounded-xl text-sm font-bold hover:bg-accent-cyan/20 transition-all text-center"
                     >
                       + Add Member
                     </button>
@@ -604,7 +604,7 @@ export const Settings = () => {
                       <motion.div
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="relative glass-effect p-8 rounded-[2.5rem] border-white/10 w-full max-w-lg shadow-2xl"
+                        className="relative glass-effect p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border-white/10 w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar"
                       >
                         <h2 className="text-2xl font-bold mb-6">
                           {selectedAdmin ? 'Edit Member' : 'New Team Member'}

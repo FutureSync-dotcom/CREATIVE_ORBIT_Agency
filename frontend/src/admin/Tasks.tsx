@@ -159,17 +159,17 @@ export const Tasks = () => {
   return (
     <AdminLayout title="Tasks">
       <div className="space-y-8">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Task Manager</h1>
-            <p className="text-white/40 mt-1">Manage project milestones and daily to-dos.</p>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Task Manager</h1>
+            <p className="text-white/40 mt-1 text-sm md:text-base">Manage project milestones and daily to-dos.</p>
           </div>
           <button
             onClick={() => {
               setCurrentTask({ status: 'Todo', priority: 'Medium' });
               setIsModalOpen(true);
             }}
-            className="relative z-20 px-5 py-2.5 bg-accent-cyan text-primary font-bold rounded-xl flex items-center gap-2 shadow-lg shadow-accent-cyan/20 hover:shadow-accent-cyan/40 transition-all active:scale-95"
+            className="w-full sm:w-auto px-5 py-3 bg-accent-cyan text-primary font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-accent-cyan/20 hover:shadow-accent-cyan/40 transition-all active:scale-95 relative z-[45]"
           >
             <Plus size={20} />
             Create Task
@@ -177,20 +177,20 @@ export const Tasks = () => {
         </div>
 
         {/* Stats Row */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {[
             { label: 'Todo', count: tasks.filter(t => t.status === 'Todo').length, color: 'text-white/40' },
-            { label: 'In Progress', count: tasks.filter(t => t.status === 'Doing').length, color: 'text-accent-cyan' },
-            { label: 'Completed', count: tasks.filter(t => t.status === 'Done').length, color: 'text-green-400' },
-            { label: 'High Priority', count: tasks.filter(t => t.priority === 'High' && t.status !== 'Done').length, color: 'text-red-400' },
+            { label: 'Doing', count: tasks.filter(t => t.status === 'Doing').length, color: 'text-accent-cyan' },
+            { label: 'Done', count: tasks.filter(t => t.status === 'Done').length, color: 'text-green-400' },
+            { label: 'High', count: tasks.filter(t => t.priority === 'High' && t.status !== 'Done').length, color: 'text-red-400' },
           ].map((stat, i) => (
-            <div key={i} className="glass-effect p-6 rounded-2xl border-white/5 flex items-center justify-between">
+            <div key={i} className="glass-effect p-4 md:p-6 rounded-2xl border-white/5 flex flex-col sm:flex-row items-center sm:justify-between text-center sm:text-left gap-3">
               <div>
-                <p className="text-white/20 text-[10px] font-bold uppercase tracking-widest">{stat.label}</p>
-                <h3 className={`text-2xl font-bold mt-1 ${stat.color}`}>{stat.count}</h3>
+                <p className="text-white/20 text-[9px] md:text-[10px] font-bold uppercase tracking-widest">{stat.label}</p>
+                <h3 className={`text-xl md:text-2xl font-bold mt-0.5 md:mt-1 ${stat.color}`}>{stat.count}</h3>
               </div>
-              <div className={`w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center ${stat.color}`}>
-                <ListTodo size={20} />
+              <div className={`w-9 h-9 md:w-10 md:h-10 rounded-xl bg-white/5 flex items-center justify-center ${stat.color} shrink-0`}>
+                <ListTodo className="w-[18px] h-[18px] md:w-5 md:h-5" />
               </div>
             </div>
           ))}
@@ -224,28 +224,28 @@ export const Tasks = () => {
                   <motion.div
                     key={task._id}
                     layout
-                    className="p-6 flex items-center justify-between group hover:bg-white/[0.02] transition-colors"
+                    className="p-4 md:p-6 flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-white/[0.02] transition-colors gap-4"
                   >
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-4 md:gap-6">
                       <button 
                         onClick={() => handleToggleStatus(task)}
-                        className="w-6 h-6 rounded-lg border-2 border-white/10 flex items-center justify-center hover:border-accent-cyan/50 transition-all"
+                        className="w-6 h-6 rounded-lg border-2 border-white/10 flex items-center justify-center hover:border-accent-cyan/50 transition-all shrink-0"
                       >
                         {statusIcons[task.status]}
                       </button>
                       <div>
-                        <h4 className={`font-semibold transition-all ${
+                        <h4 className={`text-sm md:text-base font-semibold transition-all ${
                           task.status === 'Done' ? 'text-white/20 line-through' : 'text-white'
                         }`}>
                           {task.title}
                         </h4>
-                        <div className="flex items-center gap-3 mt-1">
-                          <p className="text-[10px] text-white/30 uppercase font-bold tracking-widest flex items-center gap-1">
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1">
+                          <p className="text-[9px] md:text-[10px] text-white/30 uppercase font-bold tracking-widest flex items-center gap-1">
                             <Briefcase size={10} />
                             {task.project?.name || 'No Project'}
                           </p>
-                          <span className="w-1 h-1 rounded-full bg-white/10" />
-                          <p className="text-[10px] text-white/30 uppercase font-bold tracking-widest flex items-center gap-1">
+                          <span className="hidden sm:block w-1 h-1 rounded-full bg-white/10" />
+                          <p className="text-[9px] md:text-[10px] text-white/30 uppercase font-bold tracking-widest flex items-center gap-1">
                             <Calendar size={10} />
                             {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No Due Date'}
                           </p>
@@ -253,23 +253,23 @@ export const Tasks = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-6">
-                      <span className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest border ${priorityStyles[task.priority]}`}>
+                    <div className="flex items-center justify-between sm:justify-end gap-4 sm:gap-6">
+                      <span className={`px-2.5 py-0.5 rounded text-[9px] md:text-[10px] font-bold uppercase tracking-widest border ${priorityStyles[task.priority]}`}>
                         {task.priority}
                       </span>
-                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={() => {
                             setCurrentTask(task);
                             setIsModalOpen(true);
                           }}
-                          className="p-2 hover:bg-white/10 rounded-lg text-white/20 hover:text-accent-cyan transition-all"
+                          className="p-2 hover:bg-white/10 rounded-lg text-white/40 hover:text-accent-cyan transition-all"
                         >
                           <Edit3 size={16} />
                         </button>
                         <button 
                           onClick={() => handleDelete(task._id)}
-                          className="p-2 hover:bg-white/10 rounded-lg text-white/20 hover:text-red-400 transition-all"
+                          className="p-2 hover:bg-white/10 rounded-lg text-white/40 hover:text-red-400 transition-all"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -291,9 +291,9 @@ export const Tasks = () => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-xl glass-effect rounded-[2.5rem] shadow-2xl border-white/10 overflow-hidden"
+              className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto glass-effect rounded-[2rem] md:rounded-[2.5rem] shadow-2xl border-white/10 custom-scrollbar"
             >
-              <div className="p-8">
+              <div className="p-6 md:p-10">
                 <div className="flex justify-between items-center mb-8">
                   <h2 className="text-2xl font-bold text-white">{currentTask._id ? 'Edit Task' : 'New Task'}</h2>
                   <button 

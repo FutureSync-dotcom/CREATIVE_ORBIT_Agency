@@ -214,15 +214,15 @@ export const Projects = () => {
   return (
     <AdminLayout title="Projects">
       <div className="space-y-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Projects</h1>
-            <p className="text-white/40 mt-1">Manage and track all agency projects.</p>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Projects</h1>
+            <p className="text-white/40 mt-1 text-sm md:text-base">Manage and track all agency projects.</p>
           </div>
           
           <button
             onClick={() => handleOpenModal()}
-            className="px-5 py-2.5 bg-accent-cyan text-primary font-bold rounded-xl flex items-center gap-2 shadow-lg shadow-accent-cyan/20 hover:shadow-accent-cyan/40 transition-all relative z-[60]"
+            className="w-full sm:w-auto px-5 py-3 bg-accent-cyan text-primary font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-accent-cyan/20 hover:shadow-accent-cyan/40 transition-all relative z-[45]"
           >
             <Plus size={20} />
             Add Project
@@ -235,13 +235,13 @@ export const Projects = () => {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-accent-cyan transition-colors" size={20} />
             <input 
               type="text" 
-              placeholder="Search projects by name or client..."
+              placeholder="Search projects..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3 outline-none focus:border-accent-cyan/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-white/20"
+              className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3.5 outline-none focus:border-accent-cyan/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-white/20"
             />
           </div>
-          <button className="px-6 py-3 bg-white/5 border border-white/10 rounded-2xl flex items-center gap-2 hover:bg-white/10 transition-all text-white/60">
+          <button className="px-6 py-3.5 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center gap-2 hover:bg-white/10 transition-all text-white/60">
             <Filter size={18} />
             <span className="text-sm font-medium">Filter</span>
           </button>
@@ -380,13 +380,13 @@ export const Projects = () => {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-2xl glass-effect rounded-[2.5rem] shadow-2xl overflow-hidden border-white/10"
+              className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto glass-effect rounded-[2rem] md:rounded-[2.5rem] shadow-2xl border-white/10 custom-scrollbar"
             >
-              <div className="p-8">
-                <div className="flex justify-between items-center mb-8">
+              <div className="p-6 md:p-10">
+                <div className="flex justify-between items-start mb-8">
                   <div>
                     <h2 className="text-2xl font-bold text-white">{editingProject ? 'Edit Project' : 'Add New Project'}</h2>
-                    <p className="text-white/40 text-sm">Fill in the details below to {editingProject ? 'update' : 'create'} the project.</p>
+                    <p className="text-white/40 text-sm mt-1">Fill in the details to {editingProject ? 'update' : 'create'} the project.</p>
                   </div>
                   <button 
                     onClick={() => setIsModalOpen(false)}

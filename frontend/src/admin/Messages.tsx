@@ -121,20 +121,20 @@ export const Messages = () => {
 
   return (
     <AdminLayout title="Messages">
-      <div className="flex flex-col h-[calc(100vh-180px)] gap-8">
+      <div className="flex flex-col h-full lg:h-[calc(100vh-180px)] gap-6 md:gap-8">
         {/* Header / Search Area (Centered) */}
-        <div className="flex flex-col items-center gap-6 max-w-2xl mx-auto w-full">
+        <div className="flex flex-col items-center gap-4 md:gap-6 max-w-2xl mx-auto w-full">
           <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight mb-2">Messages</h1>
-            <p className="text-white/40">Manage your incoming inquiries and service orders.</p>
+            <h1 className="text-2xl md:text-4xl font-bold tracking-tight mb-2">Messages</h1>
+            <p className="text-white/40 text-sm md:text-base">Manage your incoming inquiries and service orders.</p>
           </div>
 
-          <div className="flex gap-2 p-1.5 bg-white/5 rounded-2xl border border-white/5 w-full">
+          <div className="flex gap-1 md:gap-2 p-1 md:p-1.5 bg-white/5 rounded-2xl border border-white/5 w-full overflow-x-auto no-scrollbar">
             {(['All', 'Contact', 'Order'] as const).map(type => (
               <button
                 key={type}
                 onClick={() => setFilterType(type)}
-                className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all ${
+                className={`flex-1 py-2 px-4 text-[10px] md:text-xs font-bold rounded-xl transition-all whitespace-nowrap ${
                   filterType === type ? 'bg-white/10 text-white shadow-lg' : 'text-white/40 hover:text-white/60'
                 }`}
               >
@@ -150,18 +150,21 @@ export const Messages = () => {
               placeholder="Search your inbox..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-4 outline-none focus:border-accent-cyan/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-white/20"
+              className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3.5 md:py-4 outline-none focus:border-accent-cyan/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-white/20"
             />
           </div>
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 flex gap-6 overflow-hidden">
+        <div className="flex-1 flex gap-6 overflow-hidden relative min-h-[400px]">
           {/* Sidebar / List */}
-          <div className="w-full lg:w-1/3 glass-effect rounded-[2rem] border-white/5 overflow-hidden flex flex-col">
+          <div className={cn(
+            "w-full lg:w-1/3 glass-effect rounded-2xl md:rounded-[2rem] border-white/5 overflow-hidden flex flex-col transition-all duration-300",
+            selectedMessage && "hidden lg:flex"
+          )}>
             <div className="flex-1 overflow-y-auto custom-scrollbar">
               {loading ? (
-                <div className="h-full flex items-center justify-center">
+                <div className="h-full flex items-center justify-center py-10">
                   <Loader2 className="animate-spin text-accent-cyan" size={32} />
                 </div>
               ) : filteredMessages.length === 0 ? (
@@ -170,8 +173,8 @@ export const Messages = () => {
                     <Inbox size={24} className="text-white/20" />
                   </div>
                   <div>
-                    <p className="text-white font-bold">Your inbox is clear.</p>
-                    <p className="text-white/30 text-xs mt-1">No messages found for this filter.</p>
+                    <p className="text-white font-bold text-sm">Your inbox is clear.</p>
+                    <p className="text-white/30 text-[10px] mt-1">No messages found for this filter.</p>
                   </div>
                 </div>
               ) : (
@@ -183,24 +186,24 @@ export const Messages = () => {
                         setSelectedMessage(msg);
                         if (msg.status === 'Unread') handleUpdateStatus(msg._id, 'Read');
                       }}
-                      className={`p-5 cursor-pointer transition-all hover:bg-white/[0.03] relative group ${
+                      className={`p-4 md:p-5 cursor-pointer transition-all hover:bg-white/[0.03] relative group ${
                         selectedMessage?._id === msg._id ? 'bg-white/[0.05]' : ''
                       }`}
                     >
-                      <div className="flex justify-between items-start mb-2">
-                        <div className="flex items-center gap-3">
+                      <div className="flex justify-between items-start mb-1.5">
+                        <div className="flex items-center gap-2 md:gap-3">
                           <StatusIcon status={msg.status} />
-                          <h4 className={`text-sm font-bold truncate max-w-[150px] ${
+                          <h4 className={`text-sm font-bold truncate max-w-[120px] md:max-w-[150px] ${
                             msg.status === 'Unread' ? 'text-white' : 'text-white/50'
                           }`}>
                             {msg.name}
                           </h4>
                         </div>
-                        <span className="text-[10px] text-white/20 whitespace-nowrap">
+                        <span className="text-[9px] md:text-[10px] text-white/20 whitespace-nowrap">
                           {new Date(msg.createdAt).toLocaleDateString()}
                         </span>
                       </div>
-                      <p className={`text-xs mb-2 truncate ${
+                      <p className={`text-[11px] md:text-xs mb-2 truncate ${
                         msg.status === 'Unread' ? 'text-white/80' : 'text-white/30'
                       }`}>
                         {msg.subject}
@@ -218,76 +221,85 @@ export const Messages = () => {
             </div>
           </div>
 
-          {/* Message Content */}
-          <div className="hidden lg:flex flex-1 glass-effect rounded-[2rem] border-white/5 overflow-hidden flex flex-col">
+          {/* Message Content Area */}
+          <div className={cn(
+            "flex-1 lg:flex glass-effect rounded-2xl md:rounded-[2rem] border-white/5 overflow-hidden flex flex-col absolute inset-0 lg:relative z-20 bg-primary lg:bg-transparent transition-transform duration-300",
+            selectedMessage ? "translate-x-0" : "translate-x-full lg:translate-x-0"
+          )}>
             <AnimatePresence mode='wait'>
               {selectedMessage ? (
                 <motion.div 
                   key={selectedMessage._id}
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
                   className="flex flex-col h-full"
                 >
-                  <div className="p-8 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
-                    <div className="flex gap-4">
-                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-cyan/20 to-accent-purple/20 flex items-center justify-center border border-white/10">
-                        <User size={24} className="text-accent-cyan" />
+                  <div className="p-4 md:p-8 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
+                    <div className="flex gap-3 md:gap-4 items-center">
+                      <button 
+                        onClick={() => setSelectedMessage(null)}
+                        className="lg:hidden p-2 text-white/40 hover:text-white"
+                      >
+                        <X size={20} />
+                      </button>
+                      <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gradient-to-br from-accent-cyan/20 to-accent-purple/20 flex items-center justify-center border border-white/10">
+                        <User className="w-5 h-5 md:w-6 md:h-6 text-accent-cyan" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-white">{selectedMessage.name}</h3>
-                        <p className="text-white/40 text-sm flex items-center gap-2">
-                          <Mail size={14} />
-                          {selectedMessage.email}
+                        <h3 className="text-base md:text-xl font-bold text-white truncate max-w-[150px] md:max-w-none">{selectedMessage.name}</h3>
+                        <p className="text-white/40 text-[10px] md:text-sm flex items-center gap-1.5 md:gap-2">
+                          <Mail className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                          <span className="truncate max-w-[120px] md:max-w-none">{selectedMessage.email}</span>
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-1 md:gap-2">
                       <button 
                         onClick={() => handleUpdateStatus(selectedMessage._id, 'Archived')}
-                        className="p-3 bg-white/5 rounded-xl text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                        className="p-2 md:p-3 bg-white/5 rounded-xl text-white/40 hover:text-white hover:bg-white/10 transition-all"
                         title="Archive"
                       >
-                        <Archive size={18} />
+                        <Archive className="w-4 h-4 md:w-[18px] md:h-[18px]" />
                       </button>
                       <button 
                         onClick={() => handleDelete(selectedMessage._id)}
-                        className="p-3 bg-white/5 rounded-xl text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                        className="p-2 md:p-3 bg-white/5 rounded-xl text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-all"
                         title="Delete"
                       >
-                        <Trash2 size={18} />
+                        <Trash2 className="w-4 h-4 md:w-[18px] md:h-[18px]" />
                       </button>
                     </div>
                   </div>
 
-                  <div className="flex-1 p-10 overflow-y-auto custom-scrollbar">
-                    <div className="mb-10">
+                  <div className="flex-1 p-6 md:p-10 overflow-y-auto custom-scrollbar">
+                    <div className="mb-6 md:mb-10">
                       <div className="flex items-center gap-3 mb-4">
                         <TypeBadge type={selectedMessage.type} />
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-white/20">
-                          Received on {new Date(selectedMessage.createdAt).toLocaleString()}
+                        <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white/20">
+                          {new Date(selectedMessage.createdAt).toLocaleString()}
                         </span>
                       </div>
-                      <h2 className="text-2xl font-bold text-white leading-tight mb-8">
+                      <h2 className="text-xl md:text-2xl font-bold text-white leading-tight mb-6 md:mb-8">
                         {selectedMessage.subject}
                       </h2>
                       <div className="prose prose-invert max-w-none">
-                        <p className="text-white/70 text-lg leading-relaxed whitespace-pre-wrap">
+                        <p className="text-white/70 text-base md:text-lg leading-relaxed whitespace-pre-wrap">
                           {selectedMessage.message}
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-8 border-t border-white/5 bg-white/[0.01]">
-                    <div className="flex gap-4">
-                      <button className="flex-1 py-4 bg-accent-cyan text-primary font-bold rounded-2xl flex items-center justify-center gap-3 hover:scale-[1.02] transition-all shadow-lg shadow-accent-cyan/10">
+                  <div className="p-4 md:p-8 border-t border-white/5 bg-white/[0.01]">
+                    <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+                      <button className="flex-1 py-3.5 md:py-4 bg-accent-cyan text-primary font-bold rounded-2xl flex items-center justify-center gap-2 md:gap-3 hover:scale-[1.02] transition-all shadow-lg shadow-accent-cyan/10 text-sm md:text-base">
                         <Send size={18} />
                         Reply via Email
                       </button>
                       <button 
                         onClick={() => handleUpdateStatus(selectedMessage._id, 'Read')}
-                        className="px-8 py-4 bg-white/5 text-white/60 font-bold rounded-2xl hover:bg-white/10 transition-all"
+                        className="py-3.5 md:py-4 px-6 md:px-8 bg-white/5 text-white/60 font-bold rounded-2xl hover:bg-white/10 transition-all text-sm md:text-base"
                       >
                         Mark as Read
                       </button>
@@ -295,7 +307,7 @@ export const Messages = () => {
                   </div>
                 </motion.div>
               ) : (
-                <div className="flex-1 flex flex-col items-center justify-center p-10 text-center gap-6">
+                <div className="flex-1 hidden lg:flex flex-col items-center justify-center p-10 text-center gap-6">
                   <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center border border-white/5 relative">
                     <MessageSquare size={40} className="text-white/10" />
                     <motion.div 

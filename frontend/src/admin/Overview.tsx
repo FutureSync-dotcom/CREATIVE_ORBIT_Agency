@@ -80,26 +80,26 @@ const RecentProjectItem = ({ name, status, client, date }: { name: string, statu
       </div>
     </div>
     
-    <div className="flex items-center gap-8">
+    <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 w-full sm:w-auto">
       <div className="hidden md:block">
-        <p className="text-xs text-white/40 mb-1">Due Date</p>
-        <p className="text-sm font-medium text-white/80">{new Date(date).toLocaleDateString()}</p>
+        <p className="text-xs text-white/40 mb-1 font-bold uppercase tracking-wider">Due Date</p>
+        <p className="text-sm font-bold text-white/80">{new Date(date).toLocaleDateString()}</p>
       </div>
       
-      <div className="flex items-center gap-2 min-w-[120px]">
+      <div className="flex items-center gap-2 min-w-[100px] sm:min-w-[120px]">
         {status === 'Completed' ? (
           <CheckCircle2 size={14} className="text-green-400" />
         ) : (
           <Clock size={14} className="text-accent-cyan" />
         )}
-        <span className={`text-xs font-medium ${
+        <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-widest ${
           status === 'Completed' ? 'text-green-400' : 'text-accent-cyan'
         }`}>
           {status}
         </span>
       </div>
       
-      <motion.button whileHover={{ scale: 1.1 }} className="p-2 hover:bg-white/10 rounded-lg">
+      <motion.button whileHover={{ scale: 1.1 }} className="p-2 hover:bg-white/10 rounded-lg ml-auto sm:ml-0">
         <MoreVertical size={18} className="text-white/40" />
       </motion.button>
     </div>
@@ -142,19 +142,18 @@ export const Overview = () => {
   return (
     <AdminLayout title="Overview">
       <div className="space-y-8">
-        <div className="flex justify-between items-end">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Overview</h1>
-            <p className="text-white/40 mt-1">
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Overview</h1>
+            <p className="text-white/40 mt-1 text-sm md:text-base">
               Welcome back, {JSON.parse(localStorage.getItem('adminUser') || '{}').name?.split(' ')[0] || 'Admin'}. 
-              Here's what's happening today.
             </p>
           </div>
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => navigate('/admin/projects')}
-            className="px-5 py-2.5 bg-accent-cyan text-primary font-bold rounded-xl flex items-center gap-2 shadow-lg shadow-accent-cyan/20 hover:shadow-accent-cyan/40 transition-all"
+            className="w-full sm:w-auto px-5 py-3 bg-accent-cyan text-primary font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-accent-cyan/20 hover:shadow-accent-cyan/40 transition-all"
           >
             <Plus size={20} />
             New Project
