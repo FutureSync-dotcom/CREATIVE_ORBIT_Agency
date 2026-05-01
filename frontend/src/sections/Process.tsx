@@ -45,17 +45,18 @@ export function Process() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const sections = gsap.utils.toArray('.process-step');
+      const horizontal = horizontalRef.current;
+      if (!horizontal) return;
       
-      gsap.to(sections, {
-        xPercent: -100 * (sections.length - 1),
+      gsap.to(horizontal, {
+        x: () => -(horizontal.scrollWidth - window.innerWidth),
         ease: "none",
         scrollTrigger: {
           trigger: containerRef.current,
           pin: true,
           scrub: 1,
-          snap: 1 / (sections.length - 1),
-          end: () => `+=${horizontalRef.current?.offsetWidth}`,
+          start: "top top",
+          end: () => `+=${horizontal.scrollWidth}`,
           invalidateOnRefresh: true,
         }
       });
@@ -66,7 +67,7 @@ export function Process() {
 
   return (
     <section ref={containerRef} className="bg-primary overflow-hidden">
-      <div className="min-h-screen flex flex-col items-center justify-start py-20 md:py-0">
+      <div className="min-h-screen flex flex-col items-start justify-start py-20 md:py-0">
         <div className="container mx-auto px-6 mb-12 md:mb-20 md:absolute md:top-16 left-0 right-0 z-20">
           <motion.span 
             initial={{ opacity: 0, y: 10 }}
@@ -84,11 +85,11 @@ export function Process() {
           </motion.h2>
         </div>
 
-        <div ref={horizontalRef} className="flex h-full items-center pt-10 md:pt-32 pl-[5vw] md:pl-[10vw]">
+        <div ref={horizontalRef} className="flex flex-row flex-nowrap w-max h-full items-center pt-24 md:pt-48 px-6 md:pr-[20vw] gap-6 md:gap-12">
           {steps.map((step, i) => (
             <div 
               key={i}
-              className="process-step w-[85vw] sm:w-[70vw] md:w-[45vw] flex-shrink-0 px-4 md:px-8"
+              className="process-step w-[85vw] sm:w-[60vw] md:w-[40vw] flex-shrink-0"
             >
               <div className="glass-card p-8 md:p-16 rounded-[2rem] md:rounded-[3rem] relative group border-white/5 overflow-hidden h-full min-h-[380px] md:min-h-[450px] flex flex-col justify-center">
                 {/* Background Number */}
