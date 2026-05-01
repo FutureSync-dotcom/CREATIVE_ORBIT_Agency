@@ -63,14 +63,14 @@ export function Portfolio() {
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent-purple/5 blur-[120px] -z-10" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
-          <div>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 md:mb-20">
+          <div className="text-center md:text-left">
             <motion.span 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.6 }}
-              className="text-xs font-bold uppercase tracking-[0.3em] text-accent-cyan mb-4 block"
+              className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-accent-cyan mb-3 md:mb-4 block"
             >
               Selected Works
             </motion.span>
@@ -79,19 +79,19 @@ export function Portfolio() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-4xl md:text-7xl font-display font-bold leading-tight"
+              className="text-3xl sm:text-4xl md:text-7xl font-display font-bold leading-tight"
             >
               Recent <span className="text-gradient">Projects</span>
             </motion.h2>
           </div>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap justify-center md:justify-end gap-2 md:gap-4">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 className={`
-                  px-8 py-3 rounded-full text-xs font-bold tracking-widest uppercase transition-all duration-300 border
+                  px-5 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase transition-all duration-300 border
                   ${activeCategory === cat 
                     ? "bg-white/10 border-white/20 text-white" 
                     : "bg-transparent border-white/5 text-white/40 hover:border-white/10 hover:text-white"

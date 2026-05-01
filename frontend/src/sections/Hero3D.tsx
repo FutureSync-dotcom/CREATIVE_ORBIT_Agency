@@ -26,7 +26,7 @@ function Scene() {
       <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={2} color="#7000FF" />
       
       <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-        <Sphere ref={meshRef} args={[1, 128, 128]} scale={2.2}>
+        <Sphere ref={meshRef} args={[1, 128, 128]} scale={window.innerWidth < 768 ? 1.5 : 2.2}>
           <MeshDistortMaterial
             color="#00F2FF"
             attach="material"
@@ -112,13 +112,13 @@ export function Hero3D({ settings }: { settings: any }) {
   const agencyName = settings?.agencyName || 'Agency';
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden bg-primary">
+    <section ref={containerRef} className="relative min-h-[100dvh] flex flex-col items-center justify-center pt-20 overflow-hidden bg-primary">
       {/* 3D Background with Parallax */}
       <motion.div 
         style={{ y: y1, scale, opacity }}
         className="absolute inset-0 z-0"
       >
-        <Canvas camera={{ position: [0, 0, 5], fov: 75 }} gl={{ antialias: true }}>
+        <Canvas camera={{ position: [0, 0, 5], fov: window.innerWidth < 768 ? 90 : 75 }} gl={{ antialias: true }}>
           <Suspense fallback={null}>
             <Scene />
           </Suspense>
@@ -126,23 +126,23 @@ export function Hero3D({ settings }: { settings: any }) {
       </motion.div>
 
       {/* Decorative Glows */}
-      <div className="absolute top-1/4 -left-1/4 w-[50%] h-[50%] bg-accent-purple/10 blur-[120px] rounded-full" />
-      <div className="absolute bottom-1/4 -right-1/4 w-[50%] h-[50%] bg-accent-cyan/10 blur-[120px] rounded-full" />
+      <div className="absolute top-1/4 -left-1/4 w-[80%] md:w-[50%] h-[80%] md:h-[50%] bg-accent-purple/10 blur-[100px] md:blur-[120px] rounded-full" />
+      <div className="absolute bottom-1/4 -right-1/4 w-[80%] md:w-[50%] h-[80%] md:h-[50%] bg-accent-cyan/10 blur-[100px] md:blur-[120px] rounded-full" />
 
       {/* Content */}
       <div className="container mx-auto px-6 relative z-10 text-center">
         <div className="perspective-1000">
-          <span className="hero-tagline inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-[0.2em] uppercase bg-white/5 border border-white/10 rounded-full text-accent-cyan">
+          <span className="hero-tagline inline-block px-4 py-1.5 mb-6 text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase bg-white/5 border border-white/10 rounded-full text-accent-cyan">
             {settings?.tagline || 'Next-Gen Software Solutions'}
           </span>
           
-          <h1 ref={textRef} className="text-5xl md:text-8xl font-display font-extrabold mb-8 leading-[1.1] tracking-tight py-4 max-w-6xl mx-auto">
+          <h1 ref={textRef} className="text-[2.5rem] sm:text-6xl md:text-8xl font-display font-extrabold mb-8 leading-[1.1] tracking-tight py-4 max-w-6xl mx-auto">
             {[agencyName, 'is', 'the', 'Future'].map((word, i) => {
               const isGradient = i === 0 || word === 'Future';
               return (
                 <span
                   key={i}
-                  className="inline-block mr-4 uppercase"
+                  className="inline-block mr-2 md:mr-4 uppercase"
                 >
                   {word.split('').map((char, charIdx) => (
                     <span 
@@ -160,13 +160,13 @@ export function Hero3D({ settings }: { settings: any }) {
             })}
           </h1>
           
-          <p ref={paraRef} className="max-w-2xl mx-auto text-base md:text-xl text-white/50 mb-12 leading-relaxed">
+          <p ref={paraRef} className="max-w-xl md:max-w-2xl mx-auto text-sm md:text-xl text-white/50 mb-10 md:mb-12 leading-relaxed px-4 md:px-0">
             We architect scalable software, intuitive interfaces, and high-performance 
             mobile ecosystems for global enterprises.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <button className="hero-btn px-8 py-4 bg-accent-cyan text-primary font-bold rounded-full flex items-center gap-2 group hover:scale-105 transition-all" data-magnetic>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6">
+            <button className="hero-btn w-full sm:w-auto px-8 py-4 bg-accent-cyan text-primary font-bold rounded-full flex items-center justify-center gap-2 group hover:scale-105 transition-all" data-magnetic>
               Start Your Project
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
@@ -179,10 +179,10 @@ export function Hero3D({ settings }: { settings: any }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="text-[10px] uppercase tracking-widest text-white/20 font-bold">Explore</span>
-        <div className="w-px h-12 bg-gradient-to-b from-accent-cyan to-transparent" />
+        <span className="text-[8px] md:text-[10px] uppercase tracking-widest text-white/20 font-bold">Explore</span>
+        <div className="w-px h-8 md:h-12 bg-gradient-to-b from-accent-cyan to-transparent" />
       </motion.div>
     </section>
   );

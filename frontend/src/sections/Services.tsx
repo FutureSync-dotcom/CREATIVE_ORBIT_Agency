@@ -114,14 +114,14 @@ export function Services() {
       {/* Background Ambient Elements */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(0,242,255,0.03)_0%,transparent_70%)] -z-10" />
 
-      <div className="container mx-auto px-6 relative z-10 mb-20">
-        <div className="text-center mb-16">
+      <div className="container mx-auto px-6 relative z-10 mb-12 md:mb-20">
+        <div className="text-center mb-10 md:mb-16">
           <motion.span 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.6 }}
-            className="text-xs font-bold uppercase tracking-[0.3em] text-accent-cyan mb-4 block"
+            className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-accent-cyan mb-3 md:mb-4 block"
           >
             What We Do
           </motion.span>
@@ -130,7 +130,7 @@ export function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl md:text-7xl font-display font-bold leading-tight"
+            className="text-3xl sm:text-4xl md:text-7xl font-display font-bold leading-tight"
           >
             Our <span className="text-gradient">Expertise</span>
           </motion.h2>
@@ -142,14 +142,14 @@ export function Services() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-4"
+          className="flex flex-wrap justify-center gap-2 md:gap-4"
         >
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={cn(
-                "px-8 py-3 rounded-full text-xs font-bold tracking-widest uppercase transition-all duration-300 border",
+                "px-5 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase transition-all duration-300 border",
                 activeCategory === cat 
                   ? "bg-white/10 border-white/20 text-white" 
                   : "bg-transparent border-white/5 text-white/40 hover:border-white/10 hover:text-white"
@@ -167,22 +167,24 @@ export function Services() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.4 }}
-        className="flex overflow-hidden justify-center py-10"
+        className="flex overflow-hidden justify-center py-6 md:py-10"
       >
         <div
           className={cn(
-            "flex gap-8 px-4",
+            "flex gap-4 md:gap-8 px-4",
             useMarquee ? "animate-marquee hover:[animation-play-state:paused]" : "flex-wrap justify-center max-w-7xl",
-            activeCategory !== 'All' && useMarquee && "[animation-duration:25s]"
+            activeCategory !== 'All' && useMarquee && "[animation-duration:25s]",
+            "md:[animation-duration:40s] [animation-duration:20s]"
           )}
         >
           <AnimatePresence mode="popLayout">
             {displayServices.map((service, index) => (
-              <ServiceCard
-                key={`${service.title}-${index}`}
-                service={service}
-                index={index}
-              />
+              <div key={`${service.title}-${index}`} className="w-[280px] md:w-auto flex-shrink-0">
+                <ServiceCard
+                  service={service}
+                  index={index}
+                />
+              </div>
             ))}
           </AnimatePresence>
         </div>

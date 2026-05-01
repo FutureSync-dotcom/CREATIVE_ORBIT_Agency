@@ -62,30 +62,31 @@ export function Navigation({ settings }: { settings: any }) {
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-700 px-6 py-4',
-        scrolled ? 'py-3' : 'py-8'
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-700 px-4 md:px-6 py-4',
+        scrolled ? 'py-2 md:py-3' : 'py-6 md:py-8'
       )}
     >
       <div className={cn(
-        'max-w-7xl mx-auto flex items-center justify-between px-8 py-3 rounded-full transition-all duration-700 border border-transparent',
+        'max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 py-2 md:py-3 rounded-full transition-all duration-700 border border-transparent',
         scrolled ? 'glass-card border-white/5 shadow-2xl scale-[0.98]' : 'bg-transparent'
       )}>
         {/* Logo */}
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-3 group cursor-pointer" 
+          className="flex items-center gap-2 md:gap-3 group cursor-pointer" 
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
-          <div className="w-10 h-10 bg-accent-cyan/10 rounded-xl flex items-center justify-center text-accent-cyan group-hover:bg-accent-cyan group-hover:text-primary transition-all duration-500 group-hover:rotate-[360deg]">
-            <Cpu size={22} />
+          <div className="w-8 h-8 md:w-10 md:h-10 bg-accent-cyan/10 rounded-lg md:rounded-xl flex items-center justify-center text-accent-cyan group-hover:bg-accent-cyan group-hover:text-primary transition-all duration-500 group-hover:rotate-[360deg]">
+            <Cpu size={18} className="md:w-5 md:h-5" />
           </div>
-          <span className="text-xl font-display font-bold tracking-tight uppercase">
+          <span className="text-base md:text-xl font-display font-bold tracking-tight uppercase">
             {firstHalf}<span className="text-accent-cyan">{secondHalf}</span>
           </span>
         </motion.div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-1 lg:gap-2">
           {navLinks.map((link, i) => (
             <motion.div
               key={link.name}
@@ -97,7 +98,7 @@ export function Navigation({ settings }: { settings: any }) {
               <button
                 onClick={() => handleLinkClick(link)}
                 className={cn(
-                  "px-5 py-2.5 text-xs font-bold uppercase tracking-widest transition-all duration-500 relative z-10",
+                  "px-4 lg:px-5 py-2.5 text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all duration-500 relative z-10",
                   activeSection === link.name ? "text-primary" : "text-white/40 hover:text-white"
                 )}
               >
@@ -114,10 +115,10 @@ export function Navigation({ settings }: { settings: any }) {
             </motion.div>
           ))}
           
-          <div className="ml-4 pl-4 border-l border-white/10">
-            <button className="group px-6 py-2.5 bg-accent-cyan text-primary font-bold rounded-full text-xs hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2 shadow-[0_0_20px_rgba(0,242,255,0.2)]">
+          <div className="ml-2 lg:ml-4 pl-2 lg:pl-4 border-l border-white/10">
+            <button className="group px-4 lg:px-6 py-2.5 bg-accent-cyan text-primary font-bold rounded-full text-[10px] lg:text-xs hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2 shadow-[0_0_20px_rgba(0,242,255,0.2)]">
               Get Started
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
         </div>
@@ -141,7 +142,7 @@ export function Navigation({ settings }: { settings: any }) {
             initial={{ opacity: 0, scale: 0.95, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
-            className="absolute top-24 left-6 right-6 glass-card rounded-[2.5rem] p-10 flex flex-col items-center gap-8 md:hidden border-white/5 shadow-2xl"
+            className="absolute top-20 left-4 right-4 glass-card rounded-[2rem] p-8 flex flex-col items-center gap-6 md:hidden border-white/5 shadow-2xl z-[60]"
           >
             {navLinks.map((link, i) => (
               <motion.button
@@ -150,7 +151,7 @@ export function Navigation({ settings }: { settings: any }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
                 className={cn(
-                  "text-2xl font-display font-bold transition-all",
+                  "text-xl font-display font-bold transition-all",
                   activeSection === link.name ? "text-accent-cyan" : "text-white/30 hover:text-white"
                 )}
                 onClick={() => handleLinkClick(link)}
@@ -158,7 +159,7 @@ export function Navigation({ settings }: { settings: any }) {
                 {link.name}
               </motion.button>
             ))}
-            <button className="w-full py-5 bg-accent-cyan text-primary font-bold rounded-2xl text-sm uppercase tracking-widest shadow-lg">
+            <button className="w-full py-4 bg-accent-cyan text-primary font-bold rounded-2xl text-xs uppercase tracking-widest shadow-lg">
               Get Started
             </button>
           </motion.div>

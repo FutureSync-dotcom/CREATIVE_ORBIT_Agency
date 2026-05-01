@@ -221,13 +221,13 @@ export function Packages() {
       <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-accent-purple/5 blur-[120px] -z-10" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center mb-20">
+        <div className="text-center mb-12 md:mb-20">
           <motion.span 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.6 }}
-            className="text-xs font-bold uppercase tracking-[0.3em] text-accent-cyan mb-4 block"
+            className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-accent-cyan mb-3 md:mb-4 block"
           >
             Pricing Plans
           </motion.span>
@@ -236,7 +236,7 @@ export function Packages() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl md:text-7xl font-display font-bold leading-tight mb-6"
+            className="text-3xl sm:text-4xl md:text-7xl font-display font-bold leading-tight mb-4 md:mb-6"
           >
             Service <span className="text-gradient">Packages</span>
           </motion.h2>
@@ -245,7 +245,7 @@ export function Packages() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-white/40 max-w-2xl mx-auto text-lg"
+            className="text-white/40 max-w-2xl mx-auto text-base md:text-lg px-4 md:px-0"
           >
             Choose the package that aligns with the expertise you need. 
             All plans are designed for maximum brand impact and ROI.
@@ -258,14 +258,14 @@ export function Packages() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-wrap justify-center gap-4 mb-20"
+          className="flex flex-wrap justify-center gap-2 md:gap-4 mb-12 md:mb-20"
         >
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat as any)}
               className={cn(
-                "px-8 py-3 rounded-full text-xs font-bold tracking-widest uppercase transition-all duration-300 border",
+                "px-5 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase transition-all duration-300 border",
                 activeCategory === cat 
                   ? "bg-white/10 border-white/20 text-white" 
                   : "bg-transparent border-white/5 text-white/40 hover:border-white/10 hover:text-white"
@@ -276,7 +276,7 @@ export function Packages() {
           ))}
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 max-w-5xl mx-auto">
           <AnimatePresence mode="wait">
             {packagesData[activeCategory]?.map((pkg, index) => {
               const style = domainStyles[pkg.color as keyof typeof domainStyles];
@@ -322,76 +322,76 @@ export function Packages() {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-lg glass-card rounded-[2.5rem] shadow-2xl overflow-hidden border-white/10"
+              className="relative w-full max-w-lg glass-card rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden border-white/10"
             >
-              <div className="p-8">
-                <div className="flex justify-between items-center mb-8">
+              <div className="p-6 md:p-8">
+                <div className="flex justify-between items-center mb-6 md:mb-8">
                   <div>
-                    <h2 className="text-2xl font-display font-bold text-white">Order: {selectedPackage.name}</h2>
-                    <p className="text-white/40 text-sm">You are ordering the <span className="text-accent-cyan font-bold">{selectedPackage.price}</span> plan.</p>
+                    <h2 className="text-xl md:text-2xl font-display font-bold text-white">Order: {selectedPackage.name}</h2>
+                    <p className="text-white/40 text-xs md:text-sm">You are ordering the <span className="text-accent-cyan font-bold">{selectedPackage.price}</span> plan.</p>
                   </div>
                   <button 
                     onClick={() => setIsModalOpen(false)}
                     className="p-2 hover:bg-white/5 rounded-full text-white/20 hover:text-white transition-colors"
                   >
-                    <X size={24} />
+                    <X size={20} className="md:w-6 md:h-6" />
                   </button>
                 </div>
 
                 {success ? (
-                  <div className="py-12 text-center space-y-6">
-                    <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center border border-green-500/20 mx-auto">
-                      <CheckCircle2 className="w-10 h-10 text-green-400" />
+                  <div className="py-10 md:py-12 text-center space-y-4 md:space-y-6">
+                    <div className="w-16 h-16 md:w-20 md:h-20 bg-green-500/10 rounded-full flex items-center justify-center border border-green-500/20 mx-auto">
+                      <CheckCircle2 className="w-8 h-8 md:w-10 md:h-10 text-green-400" />
                     </div>
                     <div className="space-y-2">
-                      <h3 className="text-2xl font-display font-bold">Order Received!</h3>
-                      <p className="text-white/40 text-sm max-w-[250px] mx-auto">Our team will reach out to you within 24 hours to begin the onboarding process.</p>
+                      <h3 className="text-xl md:text-2xl font-display font-bold">Order Received!</h3>
+                      <p className="text-white/40 text-xs md:text-sm max-w-[250px] mx-auto">Our team will reach out to you within 24 hours to begin the onboarding process.</p>
                     </div>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                     <div className="space-y-2 group">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4">Full Name</label>
+                      <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4">Full Name</label>
                       <input 
                         type="text" 
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 outline-none focus:border-accent-cyan/50 text-white transition-all"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl md:rounded-2xl px-5 py-3 md:py-4 outline-none focus:border-accent-cyan/50 text-white transition-all text-sm"
                         placeholder="John Doe"
                       />
                     </div>
                     <div className="space-y-2 group">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4">Email Address</label>
+                      <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4">Email Address</label>
                       <input 
                         type="email" 
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 outline-none focus:border-accent-cyan/50 text-white transition-all"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl md:rounded-2xl px-5 py-3 md:py-4 outline-none focus:border-accent-cyan/50 text-white transition-all text-sm"
                         placeholder="john@example.com"
                       />
                     </div>
                     <div className="space-y-2 group">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4">Requirements (Optional)</label>
+                      <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4">Requirements (Optional)</label>
                       <textarea 
                         rows={3}
                         value={formData.message}
                         onChange={(e) => setFormData({...formData, message: e.target.value})}
-                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-5 outline-none focus:border-accent-cyan/50 text-white resize-none transition-all"
-                        placeholder="Any specific requests or project details?"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl md:rounded-2xl px-5 py-4 md:py-5 outline-none focus:border-accent-cyan/50 text-white resize-none transition-all text-sm"
+                        placeholder="Any specific requests?"
                       />
                     </div>
 
                     <button 
                       type="submit"
                       disabled={loading}
-                      className="w-full py-5 bg-accent-cyan text-primary font-bold rounded-2xl flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 uppercase tracking-widest text-xs"
+                      className="w-full py-4 md:py-5 bg-accent-cyan text-primary font-bold rounded-xl md:rounded-2xl flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 uppercase tracking-widest text-[10px] md:text-xs"
                     >
                       {loading ? <Loader2 className="animate-spin" /> : (
                         <>
                           Confirm Order
-                          <Send size={18} />
+                          <Send size={16} className="md:w-[18px] md:h-[18px]" />
                         </>
                       )}
                     </button>

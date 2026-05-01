@@ -39,22 +39,22 @@ export function Footer({ settings }: { settings: any }) {
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-accent-cyan/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 md:mb-20">
           
           {/* Logo & Info */}
-          <div className="space-y-6">
-            <div className="flex items-center gap-2 group cursor-pointer" onClick={scrollToTop}>
-              <div className="w-10 h-10 rounded-xl bg-accent-cyan flex items-center justify-center shadow-[0_0_20px_rgba(0,242,255,0.3)] group-hover:scale-110 transition-transform">
-                <Zap className="text-primary w-6 h-6 fill-current" />
+          <div className="space-y-6 text-center sm:text-left">
+            <div className="flex items-center justify-center sm:justify-start gap-2 group cursor-pointer" onClick={scrollToTop}>
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-accent-cyan flex items-center justify-center shadow-[0_0_20px_rgba(0,242,255,0.3)] group-hover:scale-110 transition-transform">
+                <Zap className="text-primary w-5 h-5 md:w-6 md:h-6 fill-current" />
               </div>
-              <span className="text-2xl font-display font-bold tracking-tighter text-white uppercase">
+              <span className="text-xl md:text-2xl font-display font-bold tracking-tighter text-white uppercase">
                 {firstHalf}<span className="text-accent-cyan">{secondHalf}</span>
               </span>
             </div>
-            <p className="text-white/40 text-sm leading-relaxed max-w-xs">
+            <p className="text-white/40 text-xs md:text-sm leading-relaxed max-w-xs mx-auto sm:mx-0">
               {settings?.tagline || 'Architecting the next generation of digital ecosystems with precision, passion, and future-ready technology.'}
             </p>
-            <div className="flex gap-4">
+            <div className="flex justify-center sm:justify-start gap-4">
               {settings?.socialLinks?.twitter && (
                 <a href={settings.socialLinks.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full glass-effect flex items-center justify-center text-white/30 hover:text-accent-cyan transition-all">
                   <Share2 size={18} />
@@ -70,14 +70,14 @@ export function Footer({ settings }: { settings: any }) {
 
           {/* Links Columns */}
           {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-widest">{title}</h4>
-              <ul className="space-y-4">
+            <div key={title} className="text-center sm:text-left">
+              <h4 className="text-white font-bold mb-4 md:mb-6 text-[10px] md:text-xs uppercase tracking-[0.2em]">{title}</h4>
+              <ul className="space-y-3 md:space-y-4">
                 {links.map((link) => (
                   <li key={link.name}>
                     <a 
                       href={link.href} 
-                      className="text-white/40 hover:text-accent-cyan transition-colors text-sm flex items-center gap-2 group"
+                      className="text-white/40 hover:text-accent-cyan transition-colors text-xs md:text-sm flex items-center justify-center sm:justify-start gap-2 group"
                     >
                       <span className="w-1 h-1 rounded-full bg-accent-cyan scale-0 group-hover:scale-100 transition-transform" />
                       {link.name}
@@ -90,19 +90,19 @@ export function Footer({ settings }: { settings: any }) {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
-          <p className="text-white/20 text-xs tracking-wide text-center md:text-left">
+        <div className="pt-8 md:pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
+          <p className="text-white/20 text-[10px] md:text-xs tracking-wide text-center md:text-left">
             © 2026 {agencyName} Software Agency. Built for the Digital Future.
           </p>
 
           <button 
             onClick={scrollToTop}
-            className="group flex items-center gap-3 text-white/30 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest"
+            className="group flex items-center gap-3 text-white/30 hover:text-white transition-colors text-[10px] md:text-xs font-bold uppercase tracking-widest"
             data-magnetic
           >
             Back to top
-            <div className="w-10 h-10 rounded-full glass-effect flex items-center justify-center group-hover:bg-accent-cyan group-hover:text-primary transition-all">
-              <ArrowUp size={16} />
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full glass-effect flex items-center justify-center group-hover:bg-accent-cyan group-hover:text-primary transition-all">
+              <ArrowUp size={14} className="md:w-4 md:h-4" />
             </div>
           </button>
         </div>

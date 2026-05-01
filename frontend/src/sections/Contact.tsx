@@ -67,30 +67,31 @@ export function Contact({ settings }: { settings: any }) {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(0,242,255,0.02)_0%,transparent_70%)] pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           
           {/* Left Side: Contact Info */}
-          <div className="space-y-12">
+          <div className="space-y-10 md:space-y-12">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.8 }}
+              className="text-center md:text-left"
             >
-              <span className="text-xs font-bold uppercase tracking-[0.3em] text-accent-cyan mb-6 block">
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-accent-cyan mb-4 md:mb-6 block">
                 Let's Connect
               </span>
-              <h2 className="text-4xl md:text-7xl font-display font-bold mb-8 leading-[1.1]">
+              <h2 className="text-3xl sm:text-4xl md:text-7xl font-display font-bold mb-6 md:mb-8 leading-[1.1]">
                 Have a Vision? <br />
                 <span className="text-gradient">Let's Build It.</span>
               </h2>
-              <p className="text-lg text-white/40 leading-relaxed max-w-md">
+              <p className="text-base md:text-lg text-white/40 leading-relaxed max-w-md mx-auto md:mx-0">
                 Whether you're looking for a full-scale digital ecosystem or a specialized 
                 design revamp, our team is ready to accelerate your journey.
               </p>
             </motion.div>
 
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6">
               {contactInfo.map((info, i) => (
                 <motion.div 
                   key={i} 
@@ -98,16 +99,16 @@ export function Contact({ settings }: { settings: any }) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: false }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="flex gap-6 items-center group cursor-pointer"
+                  className="flex flex-col sm:flex-row gap-4 md:gap-6 items-center text-center sm:text-left group cursor-pointer"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-accent-cyan/10 group-hover:border-accent-cyan/30 group-hover:text-accent-cyan transition-all duration-500">
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-accent-cyan/10 group-hover:border-accent-cyan/30 group-hover:text-accent-cyan transition-all duration-500">
                     {info.icon}
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20 block mb-1 group-hover:text-accent-cyan transition-colors">
+                    <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-white/20 block mb-1 group-hover:text-accent-cyan transition-colors">
                       {info.label}
                     </span>
-                    <span className="text-xl font-medium text-white/80 group-hover:text-white transition-colors">
+                    <span className="text-lg md:text-xl font-medium text-white/80 group-hover:text-white transition-colors break-all">
                       {info.value}
                     </span>
                   </div>
@@ -120,15 +121,15 @@ export function Contact({ settings }: { settings: any }) {
               whileInView={{ opacity: 1 }}
               viewport={{ once: false }}
               transition={{ delay: 0.5 }}
-              className="flex gap-4"
+              className="flex justify-center md:justify-start gap-4"
             >
               {['Twitter', 'LinkedIn', 'Instagram', 'Github'].map((social) => (
                 <a 
                   key={social}
                   href="#" 
-                  className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white/30 hover:text-accent-cyan hover:border-accent-cyan/30 hover:bg-accent-cyan/5 transition-all duration-300"
+                  className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white/30 hover:text-accent-cyan hover:border-accent-cyan/30 hover:bg-accent-cyan/5 transition-all duration-300"
                 >
-                  <Share2 size={20} />
+                  <Share2 size={18} className="md:w-5 md:h-5" />
                 </a>
               ))}
             </motion.div>
@@ -142,7 +143,7 @@ export function Contact({ settings }: { settings: any }) {
             transition={{ duration: 0.8 }}
             className="relative"
           >
-            <div className="glass-card p-8 md:p-12 rounded-[3.5rem] relative overflow-hidden group">
+            <div className="glass-card p-6 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-br from-accent-cyan/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
               
               <AnimatePresence mode='wait'>
@@ -152,14 +153,14 @@ export function Contact({ settings }: { settings: any }) {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
-                    className="flex flex-col items-center justify-center py-20 text-center space-y-6"
+                    className="flex flex-col items-center justify-center py-12 md:py-20 text-center space-y-6"
                   >
-                    <div className="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center border border-green-500/20 mb-4 animate-bounce">
-                      <CheckCircle2 className="w-12 h-12 text-green-400" />
+                    <div className="w-20 h-20 md:w-24 md:h-24 bg-green-500/10 rounded-full flex items-center justify-center border border-green-500/20 mb-4 animate-bounce">
+                      <CheckCircle2 className="w-10 h-10 md:w-12 md:h-12 text-green-400" />
                     </div>
                     <div className="space-y-2">
-                      <h3 className="text-3xl font-display font-bold">Message Sent!</h3>
-                      <p className="text-white/40">We've received your vision and will respond shortly.</p>
+                      <h3 className="text-2xl md:text-3xl font-display font-bold">Message Sent!</h3>
+                      <p className="text-white/40 text-sm md:text-base">We've received your vision and will respond shortly.</p>
                     </div>
                     <button 
                       onClick={() => setSuccess(false)}
@@ -175,11 +176,11 @@ export function Contact({ settings }: { settings: any }) {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     onSubmit={handleSubmit} 
-                    className="space-y-8 relative z-10"
+                    className="space-y-6 md:space-y-8 relative z-10"
                   >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
                       <div className="space-y-2 group">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4 group-focus-within:text-accent-cyan transition-colors">
+                        <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4 group-focus-within:text-accent-cyan transition-colors">
                           Full Name
                         </label>
                         <input 
@@ -188,11 +189,11 @@ export function Contact({ settings }: { settings: any }) {
                           value={formData.name}
                           onChange={(e) => setFormData({...formData, name: e.target.value})}
                           placeholder="John Doe"
-                          className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-accent-cyan/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-white/10"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 outline-none focus:border-accent-cyan/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-white/10 text-sm"
                         />
                       </div>
                       <div className="space-y-2 group">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4 group-focus-within:text-accent-cyan transition-colors">
+                        <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4 group-focus-within:text-accent-cyan transition-colors">
                           Email Address
                         </label>
                         <input 
@@ -201,19 +202,19 @@ export function Contact({ settings }: { settings: any }) {
                           value={formData.email}
                           onChange={(e) => setFormData({...formData, email: e.target.value})}
                           placeholder="john@example.com"
-                          className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-accent-cyan/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-white/10"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 outline-none focus:border-accent-cyan/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-white/10 text-sm"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2 group">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4 group-focus-within:text-accent-cyan transition-colors">
+                      <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4 group-focus-within:text-accent-cyan transition-colors">
                         Project Domain
                       </label>
                       <select 
                         value={formData.subject}
                         onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-accent-cyan/50 focus:bg-white/[0.08] transition-all text-white/60 appearance-none cursor-pointer"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 outline-none focus:border-accent-cyan/50 focus:bg-white/[0.08] transition-all text-white/60 appearance-none cursor-pointer text-sm"
                       >
                         <option>Web & Mobile Dev</option>
                         <option>Logo & Branding</option>
@@ -223,7 +224,7 @@ export function Contact({ settings }: { settings: any }) {
                     </div>
 
                     <div className="space-y-2 group">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4 group-focus-within:text-accent-cyan transition-colors">
+                      <label className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4 group-focus-within:text-accent-cyan transition-colors">
                         How can we help?
                       </label>
                       <textarea 
@@ -232,19 +233,19 @@ export function Contact({ settings }: { settings: any }) {
                         value={formData.message}
                         onChange={(e) => setFormData({...formData, message: e.target.value})}
                         placeholder="Tell us about your project vision..."
-                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-accent-cyan/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-white/10 resize-none"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl md:rounded-2xl px-5 md:px-6 py-3 md:py-4 outline-none focus:border-accent-cyan/50 focus:bg-white/[0.08] transition-all text-white placeholder:text-white/10 resize-none text-sm"
                       />
                     </div>
 
                     <button 
                       type="submit"
                       disabled={loading}
-                      className="w-full py-5 bg-accent-cyan text-primary font-bold rounded-2xl flex items-center justify-center gap-3 group/btn hover:scale-[1.02] transition-all active:scale-[0.98] disabled:opacity-50 uppercase tracking-widest text-xs"
+                      className="w-full py-4 md:py-5 bg-accent-cyan text-primary font-bold rounded-xl md:rounded-2xl flex items-center justify-center gap-3 group/btn hover:scale-[1.02] transition-all active:scale-[0.98] disabled:opacity-50 uppercase tracking-widest text-[10px] md:text-xs"
                     >
                       {loading ? <Loader2 className="animate-spin" /> : (
                         <>
                           Send Vision
-                          <Send className="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                          <Send className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
                         </>
                       )}
                     </button>
