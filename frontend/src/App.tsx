@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Home } from './pages/Home';
+import { AllProjects } from './pages/AllProjects';
 import { Login } from './admin/Login';
 import { Maintenance } from './pages/Maintenance';
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -48,6 +49,7 @@ function App() {
           path="/" 
           element={settings?.maintenanceMode ? <Maintenance /> : <Home settings={settings} />} 
         />
+        <Route path="/projects" element={<AllProjects settings={settings} />} />
         
         {/* Admin Login */}
         <Route path="/login" element={<Login />} />
