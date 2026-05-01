@@ -33,6 +33,7 @@ interface Project {
   challenge: string;
   dueDate: string;
   status: string;
+  link?: string;
 }
 
 export function ProjectDetail({ settings }: { settings: any }) {
@@ -179,13 +180,18 @@ export function ProjectDetail({ settings }: { settings: any }) {
               <h3 className="text-xl font-bold">{new Date(project.dueDate).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</h3>
             </div>
             <div className="md:text-right">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-3 px-8 py-4 bg-white text-primary font-bold rounded-full hover:bg-accent-cyan transition-colors"
-              >
-                Launch Project <ExternalLink size={18} />
-              </motion.button>
+              {project.link && (
+                <motion.a
+                  href={project.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center gap-3 px-8 py-4 bg-white text-primary font-bold rounded-full hover:bg-accent-cyan transition-colors"
+                >
+                  Launch Project <ExternalLink size={18} />
+                </motion.a>
+              )}
             </div>
           </div>
         </div>

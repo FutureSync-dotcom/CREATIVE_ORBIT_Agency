@@ -48,7 +48,7 @@ router.get('/:id', async (req, res) => {
 // @desc    Create a project
 // @access  Private
 router.post('/', auth, async (req, res) => {
-  const { name, client, status, progress, description, dueDate, budget, isFeatured, image, results, tags, challenge } = req.body;
+  const { name, client, status, progress, description, dueDate, budget, isFeatured, image, results, tags, challenge, link } = req.body;
 
   try {
     const newProject = new Project({
@@ -63,7 +63,8 @@ router.post('/', auth, async (req, res) => {
       image,
       results,
       tags,
-      challenge
+      challenge,
+      link
     });
 
     const project = await newProject.save();
@@ -78,7 +79,7 @@ router.post('/', auth, async (req, res) => {
 // @desc    Update a project
 // @access  Private
 router.put('/:id', auth, async (req, res) => {
-  const { name, client, status, progress, description, dueDate, budget, isFeatured, image, results, tags, challenge } = req.body;
+  const { name, client, status, progress, description, dueDate, budget, isFeatured, image, results, tags, challenge, link } = req.body;
 
   try {
     let project = await Project.findById(req.params.id);
@@ -86,7 +87,7 @@ router.put('/:id', auth, async (req, res) => {
 
     project = await Project.findByIdAndUpdate(
       req.params.id,
-      { $set: { name, client, status, progress, description, dueDate, budget, isFeatured, image, results, tags, challenge } },
+      { $set: { name, client, status, progress, description, dueDate, budget, isFeatured, image, results, tags, challenge, link } },
       { new: true }
     );
 

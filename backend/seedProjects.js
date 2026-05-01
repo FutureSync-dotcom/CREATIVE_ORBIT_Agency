@@ -12,6 +12,7 @@ const projects = [
     results: ['99.9% Uptime', '40% Faster Onboarding', '200k+ Active Users'],
     tags: ['React', 'D3.js', 'Firebase', 'TypeScript'],
     challenge: 'Designing a secure yet intuitive interface for complex financial data visualization while ensuring sub-millisecond data updates.',
+    link: 'https://nexus-fintech.example.com',
     budget: 85000,
     status: 'Completed',
     progress: 100,
@@ -26,6 +27,7 @@ const projects = [
     results: ['25% Conversion Boost', 'Global Shipping API', 'iOS & Android Support'],
     tags: ['SwiftUI', 'Node.js', 'Stripe', 'ARKit'],
     challenge: 'Integrating low-latency AR models into a high-performance shopping experience without draining mobile battery life.',
+    link: 'https://lumina-fashion.example.com',
     budget: 120000,
     status: 'In Progress',
     progress: 75,
@@ -96,8 +98,8 @@ const seedDB = async () => {
     }
 
     // Clear existing projects if needed (Optional: comment out if you want to keep existing)
-    // await Project.deleteMany({});
-    // console.log('Existing projects cleared');
+    await Project.deleteMany({});
+    console.log('Existing projects cleared');
 
     // Add projects
     for (const projectData of projects) {
