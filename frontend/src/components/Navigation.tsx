@@ -77,8 +77,9 @@ export function Navigation({ settings }: { settings: any }) {
           className="flex items-center gap-2 md:gap-3 group cursor-pointer" 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
-          <div className="w-8 h-8 md:w-10 md:h-10 bg-accent-cyan/10 rounded-lg md:rounded-xl flex items-center justify-center text-accent-cyan group-hover:bg-accent-cyan group-hover:text-primary transition-all duration-500 group-hover:rotate-[360deg]">
-            <Cpu size={18} className="md:w-5 md:h-5" />
+          <div className="w-10 h-10 md:w-12 md:h-12 bg-white/5 rounded-xl md:rounded-2xl flex items-center justify-center p-1.5 md:p-2 border border-white/5 group-hover:border-accent-cyan/50 transition-all duration-500 overflow-hidden relative">
+            <img src="/logo.png" alt="Creative Orbit" className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700" />
+            <div className="absolute inset-0 bg-accent-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
           <span className="text-base md:text-xl font-display font-bold tracking-tight uppercase">
             {firstHalf}<span className="text-accent-cyan">{secondHalf}</span>

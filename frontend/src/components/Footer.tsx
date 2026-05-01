@@ -44,8 +44,9 @@ export function Footer({ settings }: { settings: any }) {
           {/* Logo & Info */}
           <div className="space-y-6 text-center sm:text-left">
             <div className="flex items-center justify-center sm:justify-start gap-2 group cursor-pointer" onClick={scrollToTop}>
-              <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-accent-cyan flex items-center justify-center shadow-[0_0_20px_rgba(0,242,255,0.3)] group-hover:scale-110 transition-transform">
-                <Zap className="text-primary w-5 h-5 md:w-6 md:h-6 fill-current" />
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-white/5 rounded-xl md:rounded-2xl flex items-center justify-center p-1.5 md:p-2 border border-white/5 group-hover:border-accent-cyan/50 transition-all duration-500 overflow-hidden relative shadow-[0_0_20px_rgba(0,242,255,0.1)]">
+                <img src="/logo.png" alt="Creative Orbit" className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700" />
+                <div className="absolute inset-0 bg-accent-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
               <span className="text-xl md:text-2xl font-display font-bold tracking-tighter text-white uppercase">
                 {firstHalf}<span className="text-accent-cyan">{secondHalf}</span>
