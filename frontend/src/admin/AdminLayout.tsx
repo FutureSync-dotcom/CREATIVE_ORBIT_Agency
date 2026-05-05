@@ -16,7 +16,8 @@ import {
   CheckCircle2,
   DollarSign,
   Menu,
-  X
+  X,
+  Package as PackageIcon
 } from 'lucide-react';
 import { cn } from '../utils/cn';
 import './Dashboard.css';
@@ -224,16 +225,27 @@ export const AdminLayout = ({ children, title }: { children: React.ReactNode, ti
           )}
 
           {/* System Section */}
-          {hasPermission('settings') && (
+          {(hasPermission('settings') || hasPermission('packages')) && (
             <div className="space-y-2">
               <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest ml-4 mb-4">System</p>
-              <SidebarItem 
-                icon={Settings} 
-                label="Settings" 
-                path="/admin/settings" 
-                active={location.pathname === '/admin/settings'} 
-                onClick={() => setIsSidebarOpen(false)}
-              />
+              {hasPermission('packages') && (
+                <SidebarItem 
+                  icon={PackageIcon} 
+                  label="Packages" 
+                  path="/admin/packages" 
+                  active={location.pathname === '/admin/packages'} 
+                  onClick={() => setIsSidebarOpen(false)}
+                />
+              )}
+              {hasPermission('settings') && (
+                <SidebarItem 
+                  icon={Settings} 
+                  label="Settings" 
+                  path="/admin/settings" 
+                  active={location.pathname === '/admin/settings'} 
+                  onClick={() => setIsSidebarOpen(false)}
+                />
+              )}
             </div>
           )}
         </nav>

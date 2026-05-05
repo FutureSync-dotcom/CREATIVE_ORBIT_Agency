@@ -13,6 +13,7 @@ import { Projects } from './admin/Projects';
 import { Clients } from './admin/Clients';
 import { Messages } from './admin/Messages';
 import { Testimonials as AdminTestimonials } from './admin/Testimonials';
+import { Packages as AdminPackages } from './admin/Packages';
 import { Leads } from './admin/Leads';
 import { Deals } from './admin/Deals';
 import { Tasks } from './admin/Tasks';
@@ -67,6 +68,7 @@ function App() {
         <Route path="/admin/clients" element={<ProtectedRoute permission="clients"><Clients /></ProtectedRoute>} />
         <Route path="/admin/messages" element={<ProtectedRoute permission="messages"><Messages /></ProtectedRoute>} />
         <Route path="/admin/testimonials" element={<ProtectedRoute permission="testimonials"><AdminTestimonials /></ProtectedRoute>} />
+        <Route path="/admin/packages" element={<ProtectedRoute permission="packages"><AdminPackages /></ProtectedRoute>} />
         <Route path="/admin/leads" element={<ProtectedRoute permission="leads"><Leads /></ProtectedRoute>} />
         <Route path="/admin/deals" element={<ProtectedRoute permission="deals"><Deals /></ProtectedRoute>} />
         <Route path="/admin/tasks" element={<ProtectedRoute permission="tasks"><Tasks /></ProtectedRoute>} />

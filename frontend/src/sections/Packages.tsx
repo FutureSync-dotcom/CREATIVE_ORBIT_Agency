@@ -167,10 +167,12 @@ const domainStyles = {
 };
 
 export function Packages() {
-  const [activeCategory, setActiveCategory] = useState<keyof typeof packagesData>('Web & Mobile Dev');
+  const [packages, setPackages] = useState<any[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string>('Web & Mobile Dev');
   const [selectedPackage, setSelectedPackage] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
   const [success, setSuccess] = useState(false);
   
   const [formData, setFormData] = useState({
@@ -178,6 +180,41 @@ export function Packages() {
     email: '',
     message: ''
   });
+
+  React.useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        const res = await fetch('/api/packages');
+        if (!res.ok) throw new Error('Failed to fetch packages');
+        const data = await res.json();
+        if (data && data.length > 0) {
+          setPackages(data);
+          setActiveCategory(data[0].category);
+        }
+      } catch (err) {
+        console.error('Error fetching packages:', err);
+      } finally {
+        setDataLoading(false);
+      }
+    };
+    fetchPackages();
+  }, []);
+
+  // Use backend data if available, fallback to hardcoded
+  const finalPackages = packages.length > 0 ? packages : Object.entries(packagesData).flatMap(([cat, pkgs]) => pkgs.map(p => ({ ...p, category: cat })));
+  const finalCategories = packages.length > 0 ? Array.from(new Set(packages.map(p => p.category))) : categories;
+
+  const groupedPackages = finalPackages.reduce((acc: any, pkg: any) => {
+    if (!acc[pkg.category]) acc[pkg.category] = [];
+    acc[pkg.category].push(pkg);
+    return acc;
+  }, {});
+
+  const getIcon = (iconName: string) => {
+    const Icons: any = { Code2, Smartphone, PenTool, Star, Layout, Video, Search, Type, Monitor, Crown };
+    const IconComp = Icons[iconName] || Code2;
+    return <IconComp size={24} />;
+  };
 
   const handleOrder = (pkg: any) => {
     setSelectedPackage(pkg);
@@ -260,10 +297,10 @@ export function Packages() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex flex-wrap justify-center gap-2 md:gap-4 mb-12 md:mb-20"
         >
-          {categories.map((cat) => (
+          {finalCategories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setActiveCategory(cat as any)}
+              onClick={() => setActiveCategory(cat)}
               className={cn(
                 "px-5 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase transition-all duration-300 border",
                 activeCategory === cat 
@@ -278,11 +315,17 @@ export function Packages() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 max-w-5xl mx-auto">
           <AnimatePresence mode="wait">
-            {packagesData[activeCategory]?.map((pkg, index) => {
-              const style = domainStyles[pkg.color as keyof typeof domainStyles];
+            {groupedPackages[activeCategory]?.map((pkg: any, index: number) => {
+              const style = domainStyles[pkg.color as keyof typeof domainStyles] || domainStyles.cyan;
+              // If it's a backend package, map the icon
+              const displayPkg = {
+                ...pkg,
+                icon: typeof pkg.icon === 'string' ? getIcon(pkg.icon) : pkg.icon
+              };
+              
               return (
                 <motion.div
-                  key={`${activeCategory}-${pkg.name}`}
+                  key={`${activeCategory}-${pkg.name}-${index}`}
                   initial={{ opacity: 0, scale: 0.95, y: 30 }}
                   whileInView={{ opacity: 1, scale: 1, y: 0 }}
                   viewport={{ once: false }}
@@ -294,10 +337,10 @@ export function Packages() {
                   }}
                 >
                   <PackageCard 
-                    pkg={pkg} 
+                    pkg={displayPkg} 
                     style={style} 
                     index={index} 
-                    onOrder={() => handleOrder(pkg)} 
+                    onOrder={() => handleOrder(displayPkg)} 
                   />
                 </motion.div>
               );
