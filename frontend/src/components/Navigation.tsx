@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Cpu, ArrowRight } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { cn } from '../utils/cn';
 
 const navLinks = [
@@ -17,6 +18,8 @@ export function Navigation({ settings }: { settings: any }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('Home');
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const agencyName = settings?.agencyName || 'Agency';
   const half = Math.ceil(agencyName.length / 2);
@@ -47,8 +50,32 @@ export function Navigation({ settings }: { settings: any }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Handle cross-page hash scrolling
+  useEffect(() => {
+    if (location.pathname === '/' && location.hash) {
+      setTimeout(() => {
+        const id = location.hash.replace('#', '');
+        const el = document.getElementById(id);
+        if (el) {
+          const offset = el.offsetTop - 100;
+          window.scrollTo({ top: offset, behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [location.pathname, location.hash]);
+
   const handleLinkClick = (link: typeof navLinks[0]) => {
     setIsOpen(false);
+    
+    if (location.pathname !== '/') {
+      if (link.href === '#') {
+        navigate('/');
+      } else {
+        navigate('/' + link.href);
+      }
+      return;
+    }
+
     const id = link.href.replace('#', '');
     if (!id) window.scrollTo({ top: 0, behavior: 'smooth' });
     else {
@@ -56,6 +83,8 @@ export function Navigation({ settings }: { settings: any }) {
       if (el) {
         const offset = el.offsetTop - 100;
         window.scrollTo({ top: offset, behavior: 'smooth' });
+      } else {
+        navigate('/' + link.href);
       }
     }
   };
@@ -76,7 +105,13 @@ export function Navigation({ settings }: { settings: any }) {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           className="flex items-center gap-2 md:gap-3 group cursor-pointer" 
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => {
+            if (location.pathname !== '/') {
+              navigate('/');
+            } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          }}
         >
           <div className="w-10 h-10 md:w-12 md:h-12 bg-white/5 rounded-xl md:rounded-2xl flex items-center justify-center p-1.5 md:p-2 border border-white/5 group-hover:border-accent-cyan/50 transition-all duration-500 overflow-hidden relative">
             <img src="/logo.png" alt="Creative Orbit" className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700" />
@@ -125,7 +160,7 @@ export function Navigation({ settings }: { settings: any }) {
                   const offset = el.offsetTop - 100;
                   window.scrollTo({ top: offset, behavior: 'smooth' });
                 } else {
-                  window.location.href = '/#contact';
+                  navigate('/#contact');
                 }
               }}
               className="group px-4 lg:px-6 py-2.5 bg-accent-cyan text-primary font-bold rounded-full text-[10px] lg:text-xs hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2 shadow-[0_0_20px_rgba(0,242,255,0.2)]"
@@ -180,7 +215,7 @@ export function Navigation({ settings }: { settings: any }) {
                   const offset = el.offsetTop - 100;
                   window.scrollTo({ top: offset, behavior: 'smooth' });
                 } else {
-                  window.location.href = '/#contact';
+                  navigate('/#contact');
                 }
               }}
               className="w-full py-4 bg-accent-cyan text-primary font-bold rounded-2xl text-xs uppercase tracking-widest shadow-lg"

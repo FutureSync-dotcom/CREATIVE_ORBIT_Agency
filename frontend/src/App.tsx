@@ -7,6 +7,8 @@ import { Maintenance } from './pages/Maintenance';
 import { ProjectDetail } from './pages/ProjectDetail';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { FeedbackSubmission } from './pages/FeedbackSubmission';
+import { PrivacyPolicy } from './pages/PrivacyPolicy';
+import { TermsConditions } from './pages/TermsConditions';
 
 import { Overview } from './admin/Overview';
 import { Projects } from './admin/Projects';
@@ -68,6 +70,8 @@ function App() {
         <Route path="/projects" element={<AllProjects settings={settings} />} />
         <Route path="/project/:id" element={<ProjectDetail settings={settings} />} />
         <Route path="/feedback" element={<FeedbackSubmission />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy settings={settings} />} />
+        <Route path="/terms-conditions" element={<TermsConditions settings={settings} />} />
         
         {/* Admin Login */}
         <Route path="/login" element={<Login />} />

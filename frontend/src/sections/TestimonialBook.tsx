@@ -144,7 +144,7 @@ export function TestimonialBook() {
                     className="w-full flex items-center justify-between group hover:pl-2 transition-all"
                    >
                      <div className="flex items-center gap-3">
-                       <img src={t.image} alt="" className="w-6 h-6 md:w-8 md:h-8 rounded-full border border-white/10" />
+                       <img src={t.image || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'} alt="" className="w-6 h-6 md:w-8 md:h-8 rounded-full border border-white/10" />
                        <span className="text-white/60 font-bold text-xs md:text-sm group-hover:text-accent-cyan transition-colors">{t.name}</span>
                      </div>
                      <span className="text-white/20 font-mono text-[10px] md:text-xs">pg. {i + 2}</span>
@@ -165,7 +165,7 @@ export function TestimonialBook() {
                 
                 <div className="relative mb-6 md:mb-10">
                   <div className="absolute -inset-4 bg-accent-cyan/10 blur-2xl rounded-full" />
-                  <img src={t.image} alt={t.name} className="relative w-20 h-20 md:w-32 md:h-32 rounded-full border-2 md:border-4 border-white shadow-xl object-cover" />
+                  <img src={t.image || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'} alt={t.name} className="relative w-20 h-20 md:w-32 md:h-32 rounded-full border-2 md:border-4 border-white shadow-xl object-cover" />
                 </div>
 
                 <div className="space-y-1 md:space-y-2 mb-4 md:mb-8">

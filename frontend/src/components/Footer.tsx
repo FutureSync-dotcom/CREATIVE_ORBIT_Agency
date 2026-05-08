@@ -1,25 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Share2, ArrowUp, Zap } from 'lucide-react';
+import { Mail, Phone, MapPin, Share2, ArrowUp, Zap, MessageCircle } from 'lucide-react';
 import { cn } from '../utils/cn';
 
 const footerLinks = {
-  Services: [
-    { name: 'Web Development', href: '#services' },
-    { name: 'Mobile Apps', href: '#services' },
-    { name: 'UI/UX Design', href: '#services' },
-    { name: 'Cloud Hosting', href: '#services' },
-  ],
-  Company: [
-    { name: 'About Us', href: '#about' },
-    { name: 'Our Work', href: '#portfolio' },
-    { name: 'Packages', href: '#packages' },
-    { name: 'Contact', href: '#contact' },
-  ],
   Resources: [
-    { name: 'Privacy Policy', href: '#' },
-    { name: 'Terms of Service', href: '#' },
-    { name: 'Documentation', href: '#' },
+    { name: 'Privacy Policy', href: '/privacy-policy' },
+    { name: 'Terms & Conditions', href: '/terms-conditions' },
+  ],
+  Contact: [
+    { name: 'info@creativeorbit.co.uk', href: 'mailto:info@creativeorbit.co.uk', icon: <Mail size={14} /> },
+    { name: '020 3932 2335', href: 'tel:02039322335', icon: <Phone size={14} /> },
+    { name: '07988 580331 WhatsApp', href: 'https://wa.me/447988580331', icon: <MessageCircle size={14} /> },
   ]
 };
 
@@ -39,7 +31,7 @@ export function Footer({ settings }: { settings: any }) {
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-accent-cyan/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 md:mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 mb-16 md:mb-20">
           
           {/* Logo & Info */}
           <div className="space-y-6 text-center sm:text-left">
@@ -80,7 +72,13 @@ export function Footer({ settings }: { settings: any }) {
                       href={link.href} 
                       className="text-white/40 hover:text-accent-cyan transition-colors text-xs md:text-sm flex items-center justify-center sm:justify-start gap-2 group"
                     >
-                      <span className="w-1 h-1 rounded-full bg-accent-cyan scale-0 group-hover:scale-100 transition-transform" />
+                      {(link as any).icon ? (
+                        <span className="text-accent-cyan opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all shrink-0">
+                          {(link as any).icon}
+                        </span>
+                      ) : (
+                        <span className="w-1 h-1 rounded-full bg-accent-cyan scale-0 group-hover:scale-100 transition-transform shrink-0" />
+                      )}
                       {link.name}
                     </a>
                   </li>

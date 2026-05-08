@@ -314,7 +314,7 @@ export function Packages() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 max-w-5xl mx-auto">
-          <AnimatePresence mode="wait">
+          <AnimatePresence>
             {groupedPackages[activeCategory]?.map((pkg: any, index: number) => {
               const style = domainStyles[pkg.color as keyof typeof domainStyles] || domainStyles.cyan;
               // If it's a backend package, map the icon
