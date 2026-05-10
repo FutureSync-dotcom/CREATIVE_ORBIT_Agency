@@ -235,7 +235,7 @@ export function Packages() {
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4">Description</label>
-                  <textarea rows={2} required value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:border-accent-cyan/50 resize-none" placeholder="Short pitch for this plan..." />
+                  <textarea rows={2} value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:border-accent-cyan/50 resize-none" placeholder="Short pitch for this plan..." />
                 </div>
 
                 <div className="space-y-2">

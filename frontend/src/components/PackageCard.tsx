@@ -85,12 +85,14 @@ export function PackageCard({ pkg, style, index, onOrder }: PackageCardProps) {
           <span className="text-5xl font-display font-extrabold text-white">{pkg.price}</span>
         </div>
 
-        <p className="text-white/40 text-sm leading-relaxed mb-8">
-          {pkg.description}
-        </p>
+        {pkg.description && (
+          <p className="text-white/40 text-sm leading-relaxed mb-8">
+            {pkg.description}
+          </p>
+        )}
 
-        <div className="relative mb-10 flex-grow">
-          <div className="h-[280px] overflow-y-auto custom-scrollbar pr-2 features-mask space-y-4">
+        <div className="relative mb-10 flex-grow isolate">
+          <div className="h-[280px] overflow-y-auto custom-scrollbar pr-2 features-mask space-y-4 overscroll-contain touch-pan-y">
             {pkg.features.map((feat, i) => (
               <div key={i} className="flex items-start gap-3 group/feat">
                 <div className={cn("mt-1 shrink-0 transition-transform group-hover/feat:scale-110", style.accent)}>
