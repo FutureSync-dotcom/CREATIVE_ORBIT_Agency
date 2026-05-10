@@ -89,15 +89,17 @@ export function PackageCard({ pkg, style, index, onOrder }: PackageCardProps) {
           {pkg.description}
         </p>
 
-        <div className="space-y-4 mb-10 flex-grow">
-          {pkg.features.map((feat, i) => (
-            <div key={i} className="flex items-start gap-3 group/feat">
-              <div className={cn("mt-1 shrink-0 transition-transform group-hover/feat:scale-110", style.accent)}>
-                <Check size={18} />
+        <div className="relative mb-10 flex-grow">
+          <div className="h-[280px] overflow-y-auto custom-scrollbar pr-2 features-mask space-y-4">
+            {pkg.features.map((feat, i) => (
+              <div key={i} className="flex items-start gap-3 group/feat">
+                <div className={cn("mt-1 shrink-0 transition-transform group-hover/feat:scale-110", style.accent)}>
+                  <Check size={18} />
+                </div>
+                <span className="text-sm text-white/60 group-hover/feat:text-white transition-colors">{feat}</span>
               </div>
-              <span className="text-sm text-white/60 group-hover/feat:text-white transition-colors">{feat}</span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         <button 
