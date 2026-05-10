@@ -22,6 +22,13 @@ export function Contact({ settings }: { settings: any }) {
     { icon: <MapPin className="w-5 h-5" />, label: 'Our Office', value: settings?.address || 'Digital Nomad Valley, CA' },
   ];
 
+  const socialIcons = {
+    twitter: <Share2 size={18} className="md:w-5 md:h-5" />,
+    linkedin: <Share2 size={18} className="md:w-5 md:h-5" />,
+    instagram: <Share2 size={18} className="md:w-5 md:h-5" />,
+    github: <Share2 size={18} className="md:w-5 md:h-5" />,
+  };
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -123,15 +130,20 @@ export function Contact({ settings }: { settings: any }) {
               transition={{ delay: 0.5 }}
               className="flex justify-center md:justify-start gap-4"
             >
-              {['Twitter', 'LinkedIn', 'Instagram', 'Github'].map((social) => (
-                <a 
-                  key={social}
-                  href="#" 
-                  className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white/30 hover:text-accent-cyan hover:border-accent-cyan/30 hover:bg-accent-cyan/5 transition-all duration-300"
-                >
-                  <Share2 size={18} className="md:w-5 md:h-5" />
-                </a>
-              ))}
+              {Object.entries(settings?.socialLinks || {}).map(([platform, url]) => {
+                if (!url) return null;
+                return (
+                  <a 
+                    key={platform}
+                    href={url as string}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white/30 hover:text-accent-cyan hover:border-accent-cyan/30 hover:bg-accent-cyan/5 transition-all duration-300"
+                  >
+                    {socialIcons[platform as keyof typeof socialIcons] || <Share2 size={18} className="md:w-5 md:h-5" />}
+                  </a>
+                );
+              })}
             </motion.div>
           </div>
 

@@ -56,16 +56,20 @@ export function Footer({ settings }: { settings: any }) {
               {settings?.tagline || 'Architecting the next generation of digital ecosystems with precision, passion, and future-ready technology.'}
             </p>
             <div className="flex justify-center sm:justify-start gap-4">
-              {settings?.socialLinks?.twitter && (
-                <a href={settings.socialLinks.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full glass-effect flex items-center justify-center text-white/30 hover:text-accent-cyan transition-all">
-                  <Share2 size={18} />
-                </a>
-              )}
-              {settings?.socialLinks?.linkedin && (
-                <a href={settings.socialLinks.linkedin} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full glass-effect flex items-center justify-center text-white/30 hover:text-accent-cyan transition-all">
-                  <Share2 size={18} />
-                </a>
-              )}
+              {Object.entries(settings?.socialLinks || {}).map(([platform, url]) => {
+                if (!url) return null;
+                return (
+                  <a 
+                    key={platform}
+                    href={url as string}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-10 h-10 rounded-full glass-effect flex items-center justify-center text-white/30 hover:text-accent-cyan transition-all"
+                  >
+                    <Share2 size={18} />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
