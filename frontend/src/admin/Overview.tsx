@@ -68,7 +68,7 @@ const StatCard = ({ title, value, change, icon: Icon, color, loading }: { title:
   </motion.div>
 );
 
-const RecentProjectItem = ({ name, status, client, date }: { name: string, status: string, client: { name: string }, date: string }) => (
+const RecentProjectItem = ({ name, status }: { name: string, status: string }) => (
   <div className="flex items-center justify-between p-4 rounded-xl hover:bg-white/5 transition-colors group cursor-pointer">
     <div className="flex items-center gap-4">
       <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent-cyan/20 to-accent-purple/20 flex items-center justify-center border border-white/5">
@@ -76,15 +76,11 @@ const RecentProjectItem = ({ name, status, client, date }: { name: string, statu
       </div>
       <div>
         <h4 className="font-semibold text-white group-hover:text-accent-cyan transition-colors">{name}</h4>
-        <p className="text-xs text-white/40">{client?.name || 'N/A'}</p>
       </div>
     </div>
     
     <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 w-full sm:w-auto">
-      <div className="hidden md:block">
-        <p className="text-xs text-white/40 mb-1 font-bold uppercase tracking-wider">Due Date</p>
-        <p className="text-sm font-bold text-white/80">{new Date(date).toLocaleDateString()}</p>
-      </div>
+      {/* Removed Due Date */}
       
       <div className="flex items-center gap-2 min-w-[100px] sm:min-w-[120px]">
         {status === 'Completed' ? (
@@ -221,9 +217,7 @@ export const Overview = () => {
                   <RecentProjectItem 
                     key={project._id}
                     name={project.name} 
-                    client={project.client} 
                     status={project.status} 
-                    date={project.dueDate} 
                   />
                 ))
               )}

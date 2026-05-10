@@ -24,19 +24,13 @@ import {
 import { AdminLayout } from './AdminLayout';
 import { cn } from '../utils/cn';
 
-interface Client {
-  _id: string;
-  name: string;
-  company: string;
-}
+// Removed Client interface
 
 interface Project {
   _id: string;
   name: string;
-  client: Client;
   status: 'Pending' | 'In Progress' | 'Completed' | 'On Hold';
   progress: number;
-  dueDate: string;
   budget: number;
   isFeatured: boolean;
   image: string;
@@ -63,7 +57,6 @@ const StatusBadge = ({ status }: { status: string }) => {
 
 export const Projects = () => {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -73,10 +66,8 @@ export const Projects = () => {
   // Form State
   const [formData, setFormData] = useState({
     name: '',
-    client: '',
     status: 'Pending',
     progress: 0,
-    dueDate: '',
     budget: 0,
     isFeatured: false,
     image: '',
@@ -88,7 +79,6 @@ export const Projects = () => {
 
   useEffect(() => {
     fetchProjects();
-    fetchClients();
   }, []);
 
   const fetchProjects = async () => {
@@ -105,27 +95,15 @@ export const Projects = () => {
     }
   };
 
-  const fetchClients = async () => {
-    try {
-      const response = await fetch('/api/clients', {
-        headers: { 'x-auth-token': localStorage.getItem('adminToken') || '' }
-      });
-      const data = await response.json();
-      setClients(data);
-    } catch (error) {
-      console.error('Error fetching clients:', error);
-    }
-  };
+// Removed fetchClients
 
   const handleOpenModal = (project?: Project) => {
     if (project) {
       setEditingProject(project);
       setFormData({
         name: project.name,
-        client: project.client._id,
         status: project.status,
         progress: project.progress,
-        dueDate: project.dueDate ? new Date(project.dueDate).toISOString().split('T')[0] : '',
         budget: project.budget,
         isFeatured: project.isFeatured || false,
         image: project.image || '',
@@ -138,10 +116,8 @@ export const Projects = () => {
       setEditingProject(null);
       setFormData({
         name: '',
-        client: clients.length > 0 ? clients[0]._id : '',
         status: 'Pending',
         progress: 0,
-        dueDate: '',
         budget: 0,
         isFeatured: false,
         image: '',
@@ -206,9 +182,7 @@ export const Projects = () => {
   };
 
   const filteredProjects = projects.filter(p => 
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    p.client?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.client?.company?.toLowerCase().includes(searchTerm.toLowerCase())
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -254,10 +228,8 @@ export const Projects = () => {
               <thead>
                 <tr className="border-b border-white/5 bg-white/[0.02]">
                   <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-white/30">Project Details</th>
-                  <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-white/30">Client Info</th>
                   <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-white/30">Status</th>
                   <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-white/30">Progress</th>
-                  <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-white/30">Due Date</th>
                   <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-white/30 text-right">Actions</th>
                 </tr>
               </thead>
@@ -304,15 +276,7 @@ export const Projects = () => {
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-5">
-                          <div className="space-y-1">
-                            <p className="text-sm font-medium text-white/80">{project.client?.name || 'Unknown'}</p>
-                            <div className="flex items-center gap-1.5 text-[10px] text-white/40 uppercase tracking-wider">
-                              <Building2 size={10} />
-                              {project.client?.company || 'No Company'}
-                            </div>
-                          </div>
-                        </td>
+                        {/* Removed Client Info Column */}
                         <td className="px-6 py-5">
                           <StatusBadge status={project.status} />
                         </td>
@@ -332,12 +296,7 @@ export const Projects = () => {
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-5">
-                          <div className="flex items-center gap-2 text-white/60">
-                            <Clock size={14} />
-                            <span className="text-sm">{new Date(project.dueDate).toLocaleDateString()}</span>
-                          </div>
-                        </td>
+                        {/* Removed Due Date Column */}
                         <td className="px-6 py-5 text-right">
                           <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button 
@@ -418,33 +377,7 @@ export const Projects = () => {
                       </div>
                     </div>
 
-                    {/* Client Selection */}
-                    <div className="space-y-2 group">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4 group-focus-within:text-accent-cyan transition-colors">
-                        Assign Client
-                      </label>
-                      <div className="relative">
-                        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-accent-cyan transition-colors">
-                          <User size={18} />
-                        </div>
-                        <select 
-                          required
-                          value={formData.client}
-                          onChange={(e) => setFormData({...formData, client: e.target.value})}
-                          className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3.5 outline-none focus:border-accent-cyan/50 focus:bg-white/[0.08] transition-all text-white appearance-none cursor-pointer"
-                        >
-                          <option value="" disabled>Select a client</option>
-                          {clients.map(client => (
-                            <option key={client._id} value={client._id}>
-                              {client.name} ({client.company})
-                            </option>
-                          ))}
-                        </select>
-                        <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-white/20">
-                          <ChevronRight size={16} className="rotate-90" />
-                        </div>
-                      </div>
-                    </div>
+                    {/* Removed Assign Client Section */}
 
                     {/* Status */}
                     <div className="space-y-2 group">
@@ -478,24 +411,7 @@ export const Projects = () => {
                       />
                     </div>
 
-                    {/* Due Date */}
-                    <div className="space-y-2 group">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-4 group-focus-within:text-accent-cyan transition-colors">
-                        Due Date
-                      </label>
-                      <div className="relative">
-                        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-accent-cyan transition-colors">
-                          <Calendar size={18} />
-                        </div>
-                        <input 
-                          type="date" 
-                          required
-                          value={formData.dueDate}
-                          onChange={(e) => setFormData({...formData, dueDate: e.target.value})}
-                          className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3.5 outline-none focus:border-accent-cyan/50 focus:bg-white/[0.08] transition-all text-white"
-                        />
-                      </div>
-                    </div>
+                    {/* Removed Due Date Section */}
 
                     {/* Budget */}
                     <div className="space-y-2 group">

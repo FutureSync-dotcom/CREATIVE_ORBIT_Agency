@@ -9,7 +9,7 @@ const ProjectSchema = new mongoose.Schema({
   client: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Client',
-    required: true
+    required: false
   },
   status: {
     type: String,
