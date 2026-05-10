@@ -92,7 +92,10 @@ export function PackageCard({ pkg, style, index, onOrder }: PackageCardProps) {
         )}
 
         <div className="relative mb-10 flex-grow isolate">
-          <div className="h-[280px] overflow-y-auto custom-scrollbar pr-2 features-mask space-y-4 overscroll-contain touch-pan-y">
+          <div 
+            onWheel={(e) => e.stopPropagation()}
+            className="h-[280px] overflow-y-auto custom-scrollbar pr-2 features-mask space-y-4 overscroll-contain touch-pan-y relative z-20"
+          >
             {pkg.features.map((feat, i) => (
               <div key={i} className="flex items-start gap-3 group/feat">
                 <div className={cn("mt-1 shrink-0 transition-transform group-hover/feat:scale-110", style.accent)}>
