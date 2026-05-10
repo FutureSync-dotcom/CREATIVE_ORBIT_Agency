@@ -1,7 +1,7 @@
 [build]
-  base    = "."
+  base    = "frontend"
   command = "npm run build"
-  publish = "dist"
+  publish = "frontend/dist"
 
 # Environment variables set in Netlify UI / netlify.toml
 # VITE_API_BASE_URL = https://<your-vercel-backend>.vercel.app
