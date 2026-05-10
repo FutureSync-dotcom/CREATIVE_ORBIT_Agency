@@ -313,7 +313,7 @@ export function Packages() {
           ))}
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-6 lg:gap-10 max-w-7xl mx-auto">
           <AnimatePresence>
             {groupedPackages[activeCategory]?.map((pkg: any, index: number) => {
               const style = domainStyles[pkg.color as keyof typeof domainStyles] || domainStyles.cyan;
@@ -330,7 +330,7 @@ export function Packages() {
                   whileInView={{ opacity: 1, scale: 1, y: 0 }}
                   viewport={{ once: false }}
                   exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                  className="h-full"
+                  className="w-full md:w-[calc(50%-1.25rem)] lg:w-[calc(33.33%-2.5rem)] max-w-[420px]"
                   transition={{ 
                     duration: 0.6, 
                     delay: index * 0.1,
