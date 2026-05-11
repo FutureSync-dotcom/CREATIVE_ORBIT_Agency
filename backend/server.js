@@ -7,7 +7,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
-let isDbConnected = false;
+
 const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',').map((origin) => origin.trim()).filter(Boolean)
   : [];
@@ -44,17 +44,33 @@ app.use(cors({
 
 // Connect to MongoDB
 const connectDB = async () => {
-  if (isDbConnected) return;
+  if (mongoose.connection.readyState >= 1) return;
 
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    isDbConnected = true;
-    console.log('MongoDB Connected...');
+    const conn = await mongoose.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds instead of 10
+      socketTimeoutMS: 45000,
+    });
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (err) {
     console.error('MongoDB connection error:', err.message);
+    // In serverless, we don't want to exit the process, just throw so the request fails
     throw err;
   }
 };
+
+// Middleware to ensure DB connection
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    res.status(503).json({ 
+      error: 'Database Connection Error', 
+      message: 'The server is currently unable to handle the request due to a database connection issue.' 
+    });
+  }
+});
 
 // Define Routes
 app.use('/api/auth', require('./routes/auth'));
@@ -84,18 +100,7 @@ app.get('/', (req, res) => res.json({
 const PORT = process.env.PORT || 5001;
 
 if (process.env.VERCEL !== '1') {
-  connectDB()
-    .then(() => {
-      app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-    })
-    .catch((err) => {
-      console.error('Failed to start server:', err.message);
-      process.exit(1);
-    });
-} else {
-  connectDB().catch((err) => {
-    console.error('MongoDB connection bootstrap error:', err.message);
-  });
+  app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 }
 
 module.exports = app;
