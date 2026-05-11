@@ -86,8 +86,7 @@ function SmoothScroll({ children }: { children: React.ReactNode }) {
 
   return <>{children}</>;
 }
-
-function MainLayout({ children, settings }: { children: React.ReactNode, settings: any }) {
+function MainLayout({ children, settings, hasProjects }: { children: React.ReactNode, settings: any, hasProjects: boolean }) {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin') || location.pathname === '/login';
   const isMaintenance = settings?.maintenanceMode && location.pathname === '/';
@@ -96,7 +95,7 @@ function MainLayout({ children, settings }: { children: React.ReactNode, setting
 
   return (
     <main className="min-h-screen bg-primary selection:bg-accent-cyan/30 selection:text-accent-cyan">
-      <Navigation settings={settings} />
+      <Navigation settings={settings} hasProjects={hasProjects} />
       {children}
       <Footer settings={settings} />
       <WhatsAppWidget />
@@ -104,12 +103,12 @@ function MainLayout({ children, settings }: { children: React.ReactNode, setting
   );
 }
 
-function HomePage({ settings }: { settings: any }) {
+function HomePage({ settings, hasProjects }: { settings: any, hasProjects: boolean }) {
   return (
     <>
       <Hero3D settings={settings} />
       <Services />
-      <Portfolio />
+      {hasProjects && <Portfolio />}
       <TestimonialBook />
       <Process />
       <Packages />
@@ -121,22 +120,32 @@ function HomePage({ settings }: { settings: any }) {
 
 function App() {
   const [settings, setSettings] = useState<any>(null);
+  const [hasProjects, setHasProjects] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSettings = async () => {
+    const fetchData = async () => {
       try {
-        const res = await fetch('/api/settings');
-        if (!res.ok) throw new Error('Settings fetch failed');
-        const data = await res.json();
-        setSettings(data);
+        const [settingsRes, projectsRes] = await Promise.all([
+          fetch('/api/settings'),
+          fetch('/api/projects')
+        ]);
+
+        if (!settingsRes.ok) throw new Error('Settings fetch failed');
+        const settingsData = await settingsRes.json();
+        setSettings(settingsData);
+
+        if (projectsRes.ok) {
+          const projectsData = await projectsRes.json();
+          setHasProjects(Array.isArray(projectsData) && projectsData.length > 0);
+        }
       } catch (err) {
-        console.error('Failed to fetch settings:', err);
+        console.error('Failed to fetch initial data:', err);
       } finally {
         setLoading(false);
       }
     };
-    fetchSettings();
+    fetchData();
   }, []);
 
   if (loading) return null;
@@ -145,12 +154,12 @@ function App() {
     <BrowserRouter>
       <SmoothScroll>
         <MagneticCursor />
-        <MainLayout settings={settings}>
+        <MainLayout settings={settings} hasProjects={hasProjects}>
           <Routes>
             {/* Main Website */}
             <Route 
               path="/" 
-              element={settings?.maintenanceMode ? <Maintenance /> : <HomePage settings={settings} />} 
+              element={settings?.maintenanceMode ? <Maintenance /> : <HomePage settings={settings} hasProjects={hasProjects} />} 
             />
             <Route path="/projects" element={<AllProjects settings={settings} />} />
             <Route path="/project/:id" element={<ProjectDetail settings={settings} />} />

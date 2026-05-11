@@ -14,12 +14,17 @@ const navLinks = [
   { name: 'Contact', href: '#contact' },
 ];
 
-export function Navigation({ settings }: { settings: any }) {
+export function Navigation({ settings, hasProjects }: { settings: any, hasProjects: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('Home');
   const navigate = useNavigate();
   const location = useLocation();
+
+  const filteredNavLinks = navLinks.filter(link => {
+    if (link.name === 'Portfolio' && !hasProjects) return false;
+    return true;
+  });
 
   const agencyName = settings?.agencyName || 'Agency';
   const half = Math.ceil(agencyName.length / 2);
@@ -31,7 +36,7 @@ export function Navigation({ settings }: { settings: any }) {
       setScrolled(window.scrollY > 20);
 
       // Active Section Tracking
-      const sections = navLinks.map(link => {
+      const sections = filteredNavLinks.map(link => {
         const id = link.href.replace('#', '');
         if (!id) return { name: 'Home', offset: 0 };
         const el = document.getElementById(id);
@@ -48,7 +53,7 @@ export function Navigation({ settings }: { settings: any }) {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [filteredNavLinks]);
 
   // Handle cross-page hash scrolling
   useEffect(() => {
@@ -120,7 +125,7 @@ export function Navigation({ settings }: { settings: any }) {
 
         {/* Desktop Nav */}
         <div className="hidden xl:flex items-center gap-1 xl:gap-2">
-          {navLinks.map((link, i) => (
+          {filteredNavLinks.map((link, i) => (
             <motion.div
               key={link.name}
               initial={{ opacity: 0, y: -10 }}
@@ -188,7 +193,7 @@ export function Navigation({ settings }: { settings: any }) {
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
             className="absolute top-20 left-4 right-4 glass-card rounded-[2rem] p-8 flex flex-col items-center gap-6 xl:hidden border-white/5 shadow-2xl z-[60]"
           >
-            {navLinks.map((link, i) => (
+            {filteredNavLinks.map((link, i) => (
               <motion.button
                 key={link.name}
                 initial={{ opacity: 0, y: 10 }}
