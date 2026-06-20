@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 export function WhatsAppWidget() {
-  const phoneNumber = "447988580331"; // 07988 580331 formatted for WA link
+  const phoneNumber = "447412842430"; // 07412 842430 formatted for WA link
 
   return (
     <motion.div

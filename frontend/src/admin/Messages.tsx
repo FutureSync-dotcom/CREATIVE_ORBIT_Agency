@@ -27,6 +27,7 @@ interface Message {
   subject: string;
   message: string;
   type: 'Contact' | 'Order';
+  source: 'Creative Orbit' | 'AZ Tech Designs';
   status: 'Unread' | 'Read' | 'Archived';
   createdAt: string;
 }
@@ -44,6 +45,19 @@ const TypeBadge = ({ type }: { type: string }) => {
   );
 };
 
+const SourceBadge = ({ source }: { source: string }) => {
+  const styles = {
+    'Creative Orbit': 'bg-white/5 text-white/50 border-white/10',
+    'AZ Tech Designs': 'bg-orange-500/10 text-orange-300 border-orange-500/20',
+  };
+
+  return (
+    <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest border ${styles[source as keyof typeof styles] || styles['Creative Orbit']}`}>
+      {source || 'Creative Orbit'}
+    </span>
+  );
+};
+
 const StatusIcon = ({ status }: { status: string }) => {
   if (status === 'Unread') return <div className="w-2 h-2 rounded-full bg-accent-cyan animate-pulse" />;
   if (status === 'Read') return <CheckCircle2 size={14} className="text-white/20" />;
@@ -56,6 +70,7 @@ export const Messages = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const [filterType, setFilterType] = useState<'All' | 'Contact' | 'Order'>('All');
+  const [filterSource, setFilterSource] = useState<'All' | 'Creative Orbit' | 'AZ Tech Designs'>('All');
 
   useEffect(() => {
     fetchMessages();
@@ -83,7 +98,7 @@ export const Messages = () => {
           'Content-Type': 'application/json',
           'x-auth-token': localStorage.getItem('adminToken') || ''
         },
-        body: JSON.stringify({ status: 'Read' }),
+        body: JSON.stringify({ status }),
       });
       if (response.ok) {
         setMessages(messages.map(m => m._id === id ? { ...m, status: status as any } : m));
@@ -115,9 +130,12 @@ export const Messages = () => {
   const filteredMessages = messages.filter(m => {
     const matchesSearch = m.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       m.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      m.email.toLowerCase().includes(searchTerm.toLowerCase());
+      m.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (m.source || 'Creative Orbit').toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filterType === 'All' || m.type === filterType;
-    return matchesSearch && matchesFilter;
+    const messageSource = m.source || 'Creative Orbit';
+    const matchesSource = filterSource === 'All' || messageSource === filterSource;
+    return matchesSearch && matchesFilter && matchesSource;
   });
 
   return (
@@ -139,6 +157,19 @@ export const Messages = () => {
                   }`}
               >
                 {type}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex gap-1 md:gap-2 p-1 md:p-1.5 bg-white/5 rounded-2xl border border-white/5 w-full overflow-x-auto no-scrollbar">
+            {(['All', 'Creative Orbit', 'AZ Tech Designs'] as const).map(source => (
+              <button
+                key={source}
+                onClick={() => setFilterSource(source)}
+                className={`flex-1 py-2 px-3 text-[10px] md:text-xs font-bold rounded-xl transition-all whitespace-nowrap ${filterSource === source ? 'bg-white/10 text-white shadow-lg' : 'text-white/40 hover:text-white/60'
+                  }`}
+              >
+                {source === 'All' ? 'All Sites' : source}
               </button>
             ))}
           </div>
@@ -205,8 +236,11 @@ export const Messages = () => {
                         }`}>
                         {msg.subject}
                       </p>
-                      <div className="flex justify-between items-center">
-                        <TypeBadge type={msg.type} />
+                      <div className="flex justify-between items-center gap-2">
+                        <div className="flex items-center gap-2">
+                          <TypeBadge type={msg.type} />
+                          <SourceBadge source={msg.source || 'Creative Orbit'} />
+                        </div>
                         {msg.type === 'Order' && (
                           <ShoppingBag size={12} className="text-accent-purple opacity-50" />
                         )}
@@ -271,8 +305,9 @@ export const Messages = () => {
 
                   <div className="flex-1 p-6 md:p-10 overflow-y-auto custom-scrollbar">
                     <div className="mb-6 md:mb-10">
-                      <div className="flex items-center gap-3 mb-4">
+                      <div className="flex items-center gap-3 mb-4 flex-wrap">
                         <TypeBadge type={selectedMessage.type} />
+                        <SourceBadge source={selectedMessage.source || 'Creative Orbit'} />
                         <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white/20">
                           {new Date(selectedMessage.createdAt).toLocaleString()}
                         </span>

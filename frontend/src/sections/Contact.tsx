@@ -46,7 +46,8 @@ export function Contact({ settings }: { settings: any }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          type: 'Contact'
+          type: 'Contact',
+          source: 'Creative Orbit'
         }),
       });
 

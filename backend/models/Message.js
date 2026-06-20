@@ -26,6 +26,11 @@ const MessageSchema = new mongoose.Schema({
     enum: ['Contact', 'Order'],
     default: 'Contact'
   },
+  source: {
+    type: String,
+    enum: ['Creative Orbit', 'AZ Tech Designs'],
+    default: 'Creative Orbit'
+  },
   status: {
     type: String,
     enum: ['Unread', 'Read', 'Archived'],

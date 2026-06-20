@@ -23,7 +23,7 @@ const footerLinks = {
   Contact: [
     { name: 'info@creativeorbit.co.uk', href: 'mailto:info@creativeorbit.co.uk', icon: <Mail size={14} /> },
     { name: '020 3932 2335', href: 'tel:02039322335', icon: <Phone size={14} /> },
-    { name: '07988 580331', href: 'https://wa.me/447988580331', icon: <WhatsAppIcon size={14} /> },
+    { name: '07412 842430', href: 'https://wa.me/447412842430', icon: <WhatsAppIcon size={14} /> },
   ]
 };
 

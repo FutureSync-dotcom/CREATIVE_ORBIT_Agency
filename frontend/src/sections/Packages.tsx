@@ -232,7 +232,8 @@ export function Packages() {
         body: JSON.stringify({
           ...formData,
           subject: `Order: ${selectedPackage.name} (${selectedPackage.price})`,
-          type: 'Order'
+          type: 'Order',
+          source: 'Creative Orbit'
         }),
       });
 

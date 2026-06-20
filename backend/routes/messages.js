@@ -20,7 +20,7 @@ router.get('/', auth, async (req, res) => {
 // @desc    Create a message (Public)
 // @access  Public
 router.post('/', async (req, res) => {
-  const { name, email, subject, message, type } = req.body;
+  const { name, email, subject, message, type, source } = req.body;
 
   try {
     const newMessage = new Message({
@@ -28,7 +28,8 @@ router.post('/', async (req, res) => {
       email,
       subject,
       message,
-      type
+      type,
+      source
     });
 
     const savedMessage = await newMessage.save();
