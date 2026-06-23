@@ -21,20 +21,30 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
+    // Normalize origin by stripping trailing slash
+    const normalizedOrigin = origin.replace(/\/$/, "");
+
+    // Automatically allow local development hosts (localhost / 127.0.0.1 with any port)
+    const isLocalhost = /^http:\/\/localhost(:\d+)?$/.test(normalizedOrigin) || 
+                        /^http:\/\/127\.0\.0\.1(:\d+)?$/.test(normalizedOrigin);
+
+    if (isLocalhost) {
+      return callback(null, true);
+    }
+
     if (allowedOrigins.length === 0) {
       // If no origins specified, allow all in development, but be careful in production
       return callback(null, true);
     }
 
-    // Check if the origin matches any allowed origins (stripping trailing slashes for safety)
-    const normalizedOrigin = origin.replace(/\/$/, "");
+    // Check if the origin matches any allowed origins
     const isAllowed = allowedOrigins.some(allowed => allowed.replace(/\/$/, "") === normalizedOrigin);
 
     if (isAllowed) {
       callback(null, true);
     } else {
       console.log(`CORS blocked for origin: ${origin}`);
-      callback(new Error('Not allowed by CORS'));
+      callback(null, false); // Return false instead of throwing Error to prevent server 500 status on preflight
     }
   },
   credentials: true,
