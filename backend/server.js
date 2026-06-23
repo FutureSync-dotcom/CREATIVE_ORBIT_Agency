@@ -38,7 +38,19 @@ app.use(cors({
     }
 
     // Check if the origin matches any allowed origins
-    const isAllowed = allowedOrigins.some(allowed => allowed.replace(/\/$/, "") === normalizedOrigin);
+    const isAllowed = allowedOrigins.some(allowed => {
+      const normAllowed = allowed.replace(/\/$/, "");
+      
+      // Match exact
+      if (normAllowed === normalizedOrigin) return true;
+      
+      // If allowed origin has no protocol prefix (like 'aztechdesigns.co.uk'), test with https:// and http://
+      if (!/^https?:\/\//i.test(normAllowed)) {
+        return `https://${normAllowed}` === normalizedOrigin || `http://${normAllowed}` === normalizedOrigin;
+      }
+      
+      return false;
+    });
 
     if (isAllowed) {
       callback(null, true);
